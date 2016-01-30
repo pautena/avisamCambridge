@@ -137,7 +137,10 @@ public class MainActivity extends AppCompatActivity
         if(destinationStation!=null) {
             navigationService.startNavigation(destinationStation);
             //TODO: Enviar al server que s'ha començat la navegació
-            //TODO: Enviar al rellotge que s'ha començat la navegació
+            Intent intent = new Intent(this, WearMessageService.class);
+            intent.putExtra("message", "[\"StartRoute\"]");
+            intent.putExtra("path", "/startNavigation");
+            startService(intent);
         }else
             Toast.makeText(this,R.string.no_destination_selected,Toast.LENGTH_SHORT).show();
     }

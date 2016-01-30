@@ -45,6 +45,11 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         @Override
         protected void onHandleIntent(Intent intent) {
             Log.d("NavitaionService","StopNavigationIntent.onHandleIntent");
+            //TODO: enviar al server que s'ha finalitzat la navegació
+            Intent i = new Intent(this, WearMessageService.class);
+            i.putExtra("message", "[\"stopNavigation\"]");
+            i.putExtra("path", "/stopNavigation");
+            startService(i);
             NavigationService.getInstance(getApplicationContext()).stopNavigation();
         }
     }
@@ -121,8 +126,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
     public void stopNavigation(){
         if(navigationIsRun && LocationUtils.checkLocationPermission(context)) {
-            //TODO: enviar al server que s'ha finalitzat la navegació
-            //TODO: enviar al rellotge que s'ha acabat la navegació
+
             destroyNavigationNotification();
             navigationIsRun=false;
             destinationStation =null;
@@ -160,8 +164,10 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
         if(distance<20){
             //TODO: Enviar al server que s'ha arrivat al destí
-            // TODO: Enviar al rellotge que s'ha arrivat al destí
-
+            Intent i = new Intent(context, WearMessageService.class);
+            i.putExtra("message", "[\"endNavigation\"]");
+            i.putExtra("path", "/endNavigation");
+            context.startService(i);
             String notifTitle = context.getResources().getString(R.string.notif_destination_arrive);
             String notifContent = destinationStation.getName();
 
