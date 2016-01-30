@@ -21,10 +21,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a13496b7-1e85-491a-8919-e0440b80fc5e" name="Default" comment="coses ja">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/entities/Station.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/entities/Station.java" />
+    <list default="true" id="a13496b7-1e85-491a-8919-e0440b80fc5e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/src/debug/res/values/google_maps_api.xml" afterPath="$PROJECT_DIR$/wear/src/debug/res/values/google_maps_api.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/wear.iml" afterPath="$PROJECT_DIR$/wear/wear.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="alarmbike.iws" />
@@ -103,8 +101,8 @@
       <file leaf-file-name="google_maps_api.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wear/src/debug/res/values/google_maps_api.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13452914">
-              <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.06726457">
+              <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -3166,7 +3164,13 @@
       <option name="project" value="LOCAL" />
       <updated>1454192698227</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="coses ja">
+      <created>1454193189664</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1454193189664</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3661,8 +3665,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wear/src/debug/res/values/google_maps_api.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13452914">
-          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.06726457">
+          <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
           <folding />
         </state>
       </provider>
