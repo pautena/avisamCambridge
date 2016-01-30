@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,8 +37,9 @@ import cambridge.hack.alarmbike.services.LocationService;
 import cambridge.hack.alarmbike.utils.LocationUtils;
 import io.realm.Realm;
 
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GetStationsCallback, GoogleMap.OnMarkerClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GetStationsCallback, GoogleMap.OnMarkerClickListener, LocationService.LocationServiceListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -51,8 +53,8 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.nav_view)
     NavigationView navigationView;
 
-    MapFragment mapFragment;
-    private GoogleMap googleMap;
+    SupportMapFragment mapFragment;
+    private GoogleMap map;
 
     LocationService locationService;
     Realm realm;
@@ -72,8 +74,31 @@ public class MainActivity extends AppCompatActivity
         setupMap();
     }
 
+    @Override
+    protected void onDestroy() {
+        locationService.onDestroy();
+        locationService.removeListener(this);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        locationService.connect();
+        locationService.onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        locationService.disconnect();
+        locationService.onPause();
+        super.onPause();
+    }
+
     private void setupServices() {
+
         locationService = LocationService.getInstance(this);
+        locationService.addListener(this);
     }
 
     private void setupToolbar() {
@@ -100,22 +125,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupMap() {
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-        googleMap.setOnMapClickListener(this);
-        googleMap.setOnMapLongClickListener(this);
-        googleMap.setOnMarkerClickListener(this);
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        Log.d("MainActivity","onMapReady");
+        map = googleMap;
+        map.setOnMapClickListener(this);
+        map.setOnMapLongClickListener(this);
+        map.setOnMarkerClickListener(this);
+        map.getUiSettings().setMyLocationButtonEnabled(false);
         if (LocationUtils.checkLocationPermission(this)) {
-            googleMap.setMyLocationEnabled(true);
+            map.setMyLocationEnabled(true);
         }
-        googleMap.getUiSettings().setAllGesturesEnabled(true);
-        googleMap.animateCamera(locationService.getStartCamera());
+        map.getUiSettings().setAllGesturesEnabled(true);
+        map.animateCamera(locationService.getStartCamera());
 
         CityBikAdapter.getInstance(this).getLondonStations(this);
 
@@ -169,10 +195,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_my_location) {
+            Log.d("MainActivity","map status: "+map);
             LatLng latLng = LocationService.getInstance(this).getCurrentPosition();
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
-            googleMap.animateCamera(cameraUpdate);
+            map.animateCamera(cameraUpdate);
             return true;
         }
 
@@ -214,7 +241,7 @@ public class MainActivity extends AppCompatActivity
             markerOptions.position(latLng);
             Station.setMarkerByBikes(station, markerOptions);
 
-            googleMap.addMarker(markerOptions);
+            map.addMarker(markerOptions);
         }
     }
 
@@ -229,4 +256,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onLocationChanged(LatLng latLng) {
+
+    }
 }
