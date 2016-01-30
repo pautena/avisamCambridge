@@ -25,6 +25,20 @@ public class Station extends RealmObject{
         }
     }
 
+    public static JsonObject getJson(Station station){
+        JsonObject object = new JsonObject();
+
+        object.addProperty("id",station.getId());
+        object.addProperty("uid",station.getUid());
+        object.addProperty("name",station.getName());
+        object.addProperty("bikes",station.getBikes());
+        object.addProperty("slots",station.getSlots());
+        object.addProperty("latitude",station.getLatitude());
+        object.addProperty("longitude",station.getLongitude());
+
+        return object;
+    }
+
     public static LatLng getLatLng(Station station){
         return new LatLng(station.getLatitude(),station.getLongitude());
     }
@@ -39,6 +53,16 @@ public class Station extends RealmObject{
     private double longitude;
 
     public Station(){
+    }
+
+    public Station(JsonObject object){
+        id = object.get("id").getAsString();
+        uid=object.get("uid").getAsInt();
+        name=object.get("name").getAsString();
+        bikes=object.get("bikes").getAsInt();
+        slots=object.get("slots").getAsInt();
+        latitude=object.get("latitude").getAsDouble();
+        longitude = object.get("longitude").getAsDouble();
     }
 
     public Station( String id, int uid,String name, int bikes, int slots, double latitude, double longitude){
