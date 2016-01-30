@@ -109,7 +109,7 @@ public class WearMessageService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         final String msg = intent.getStringExtra("message");
-        final String path = intent.getDataString();
+        final String path = intent.getStringExtra("path");
         final Context context = getApplicationContext();
 
         new Thread() {

@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(MainActivity.class.getSimpleName(), "Send Message");
         Intent intent = new Intent(this, WearMessageService.class);
         intent.putExtra("message", "SomeTesting");
+        intent.putExtra("path", "/path");
         startService(intent);
     }
 

@@ -14,7 +14,12 @@ public class MessageReceiver extends BroadcastReceiver {
     private static Gson g = new Gson();
     private MapHandler handler;
 
+    public MessageReceiver() {
+        super();
+    }
+
     public MessageReceiver(MapHandler handler) {
+        super();
         this.handler = handler;
     }
 
