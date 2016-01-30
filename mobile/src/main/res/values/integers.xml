@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- gps services -->
+    <integer name="measure_time">5</integer>
+    <integer name="measure_min_dist">10</integer>
+</resources>
