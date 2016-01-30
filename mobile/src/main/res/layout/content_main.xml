@@ -8,10 +8,15 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
     tools:context=".ui.main.MainActivity">
-
     <fragment
         android:id="@+id/map_fragment"
-        android:name="com.google.android.gms.maps.MapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <cambridge.hack.alarmbike.ui.main.customViews.infoDestination.InfoDestination
+        android:id="@+id/info_destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 </RelativeLayout>

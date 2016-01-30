@@ -15,10 +15,6 @@ import io.realm.annotations.PrimaryKey;
 
 public class Station extends RealmObject{
 
-    public  static String getId(JsonObject jsonObject){
-        return jsonObject.get("id").getAsString();
-    }
-
     public static void setMarkerByBikes(Station station,MarkerOptions markerOptions) {
         if(station.getBikes()>5){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
@@ -110,4 +106,6 @@ public class Station extends RealmObject{
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+
 }
