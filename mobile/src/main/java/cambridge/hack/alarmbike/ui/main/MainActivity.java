@@ -25,15 +25,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.callback.GetStationsCallback;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.services.AlarmbikeInstanceIDListenerService;
 import cambridge.hack.alarmbike.services.CityBikAdapter;
 import cambridge.hack.alarmbike.services.LocationService;
+import cambridge.hack.alarmbike.services.RegisterGcm;
+import cambridge.hack.alarmbike.ui.main.customViews.infoDestination.InfoDestination;
 import cambridge.hack.alarmbike.utils.LocationUtils;
 import io.realm.Realm;
 
@@ -44,14 +49,14 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-
     @Bind(R.id.drawer_layout)
     DrawerLayout drawer;
 
     @Bind(R.id.nav_view)
     NavigationView navigationView;
+
+    @Bind(R.id.info_destination)
+    InfoDestination infoDestination;
 
     SupportMapFragment mapFragment;
     private GoogleMap map;
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     LocationService locationService;
     Realm realm;
     private Station destinationStation;
+    private List<Marker> markers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +72,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         realm = Realm.getInstance(this);
+        new RegisterGcm(this).execute();
 
         setupServices();
         setupToolbar();
-        setupFab();
         setupNavigationView();
         setupMap();
     }
@@ -96,23 +102,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupServices() {
-
         locationService = LocationService.getInstance(this);
         locationService.addListener(this);
     }
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-    }
-
-    private void setupFab() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     private void setupNavigationView() {
@@ -127,6 +122,21 @@ public class MainActivity extends AppCompatActivity
     private void setupMap() {
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
+
+    }
+
+    @OnClick(R.id.fab)
+    public void onClickStartNavigation(View view){
+        //TODO: send message to API and watch
+        Log.d("MainActivity", "onClickStartNavigation");
+    }
+
+    @OnClick(R.id.info_destination)
+    public void onClickInfoDestination(View view){
+        if(destinationStation!=null){
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(Station.getLatLng(destinationStation));
+            map.animateCamera(cameraUpdate);
+        }
     }
 
     @Override
@@ -143,9 +153,8 @@ public class MainActivity extends AppCompatActivity
         map.getUiSettings().setAllGesturesEnabled(true);
         map.animateCamera(locationService.getStartCamera());
 
+        showStations();
         CityBikAdapter.getInstance(this).getLondonStations(this);
-
-
     }
 
     @Override
@@ -163,8 +172,8 @@ public class MainActivity extends AppCompatActivity
         destinationStation = realm.where(Station.class)
                 .equalTo("latitude",marker.getPosition().latitude)
                 .equalTo("longitude",marker.getPosition().longitude).findFirst();
-
-        Log.d("MainActivity","selected destination. station id: "+destinationStation.getUid());
+        infoDestination.showStation(destinationStation);
+        Log.d("MainActivity", "selected destination. station id: " + destinationStation.getUid());
 
         return false;
     }
@@ -198,9 +207,15 @@ public class MainActivity extends AppCompatActivity
             Log.d("MainActivity","map status: "+map);
             LatLng latLng = LocationService.getInstance(this).getCurrentPosition();
 
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
-            map.animateCamera(cameraUpdate);
+            if(latLng!=null) {
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
+                map.animateCamera(cameraUpdate);
+            }else{
+                Toast.makeText(this,R.string.msg_no_position,Toast.LENGTH_SHORT).show();
+            }
             return true;
+        }else if(id==R.id.action_show_hide_destination){
+            infoDestination.swipeVisibility();
         }
 
         return super.onOptionsItemSelected(item);
@@ -234,6 +249,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onGetStationsFinish(List<Station> stations) {
+        showStations();
+    }
+
+    public void showStations(){
+        for(Marker marker: markers)
+            marker.remove();
+
+        List<Station> stations = realm.where(Station.class).findAll();
+
         for (Station station : stations){
             LatLng latLng  = Station.getLatLng(station);
 
