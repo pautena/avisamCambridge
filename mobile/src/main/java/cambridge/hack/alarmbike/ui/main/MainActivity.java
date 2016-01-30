@@ -1,5 +1,6 @@
 package cambridge.hack.alarmbike.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,6 +34,7 @@ import cambridge.hack.alarmbike.callback.GetStationsCallback;
 import cambridge.hack.alarmbike.entities.Station;
 import cambridge.hack.alarmbike.services.CityBikAdapter;
 import cambridge.hack.alarmbike.services.LocationService;
+import cambridge.hack.alarmbike.services.WearMessageService;
 import cambridge.hack.alarmbike.utils.LocationUtils;
 import io.realm.Realm;
 
@@ -196,12 +198,21 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            // TODO REMOVE MEEE!
+            sendMessage();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    // TODO: REMOVE ME!
+    private void sendMessage() {
+        Log.d(MainActivity.class.getSimpleName(), "Send Message");
+        Intent intent = new Intent(this, WearMessageService.class);
+        intent.putExtra("message", "SomeTesting");
+        startService(intent);
     }
 
 

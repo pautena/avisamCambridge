@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">alarmbike</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="intro_text">Long click to exit the map.</string>
 </resources>
