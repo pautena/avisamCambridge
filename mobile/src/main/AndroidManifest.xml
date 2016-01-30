@@ -37,6 +37,9 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".services.WearMessageService"
+            android:exported="false"
+            />
 
         <meta-data
             android:name="com.google.android.gms.version"
