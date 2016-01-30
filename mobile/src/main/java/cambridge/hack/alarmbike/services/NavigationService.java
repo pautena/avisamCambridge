@@ -33,8 +33,8 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     private static final int NAVIGATION_NOTIFICATION_ID=1;
     private class StopNavigationIntent extends IntentService{
 
-        public StopNavigationIntent(String name) {
-            super(name);
+        public StopNavigationIntent() {
+            super(StopNavigationIntent.class.getSimpleName());
         }
 
         @Override
