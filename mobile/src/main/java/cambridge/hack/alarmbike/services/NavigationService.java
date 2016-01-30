@@ -122,6 +122,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     public void stopNavigation(){
         if(navigationIsRun && LocationUtils.checkLocationPermission(context)) {
             //TODO: enviar al server que s'ha finalitzat la navegació
+            //TODO: enviar al rellotge que s'ha acabat la navegació
             destroyNavigationNotification();
             navigationIsRun=false;
             destinationStation =null;
