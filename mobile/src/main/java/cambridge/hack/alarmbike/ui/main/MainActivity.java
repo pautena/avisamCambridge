@@ -37,6 +37,7 @@ import cambridge.hack.alarmbike.entities.Station;
 import cambridge.hack.alarmbike.services.AlarmbikeInstanceIDListenerService;
 import cambridge.hack.alarmbike.services.CityBikAdapter;
 import cambridge.hack.alarmbike.services.LocationService;
+import cambridge.hack.alarmbike.services.NavigationService;
 import cambridge.hack.alarmbike.services.RegisterGcm;
 import cambridge.hack.alarmbike.ui.main.customViews.infoDestination.InfoDestination;
 import cambridge.hack.alarmbike.utils.LocationUtils;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     private GoogleMap map;
 
     LocationService locationService;
+    NavigationService navigationService;
     Realm realm;
     private Station destinationStation;
     private List<Marker> markers = new ArrayList<>();
@@ -104,6 +106,8 @@ public class MainActivity extends AppCompatActivity
     private void setupServices() {
         locationService = LocationService.getInstance(this);
         locationService.addListener(this);
+
+        navigationService= NavigationService.getInstance(this);
     }
 
     private void setupToolbar() {
@@ -127,8 +131,11 @@ public class MainActivity extends AppCompatActivity
 
     @OnClick(R.id.fab)
     public void onClickStartNavigation(View view){
-        //TODO: send message to API and watch
         Log.d("MainActivity", "onClickStartNavigation");
+        if(destinationStation!=null)
+            navigationService.startNavigation(destinationStation);
+        else
+            Toast.makeText(this,R.string.no_destination_selected,Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.info_destination)

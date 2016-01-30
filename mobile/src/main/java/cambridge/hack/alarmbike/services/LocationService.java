@@ -24,7 +24,8 @@ import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.utils.LocationUtils;
 
 
-public class LocationService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener{
+public class LocationService implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,LocationListener{
     private static LocationService locationService;
     private CameraPosition cameraPosition;
 

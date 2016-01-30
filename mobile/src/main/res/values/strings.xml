@@ -18,5 +18,7 @@
     <string name="google_dev_app_id">575065592816</string>
     <string name="error_register_user">Error on register user</string>
     <string name="registration_user_ok">Registration user successful</string>
+    <string name="notif_title_navigation">You stay in route</string>
+    <string name="notif_stop_navigation">Stop navigation</string>
 
 </resources>
