@@ -14,15 +14,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+
 import android.location.LocationListener;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.entities.Station;
 import cambridge.hack.alarmbike.utils.LocationUtils;
+import cambridge.hack.alarmbike.utils.MapsUtils;
 
 
 /**
@@ -31,7 +35,8 @@ import cambridge.hack.alarmbike.utils.LocationUtils;
 public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,LocationListener {
     private static final int NAVIGATION_NOTIFICATION_ID=1;
-    private class StopNavigationIntent extends IntentService{
+    private static final int NAVIGATION_FINISH_NOTIFICATION_ID=2;
+    public static class StopNavigationIntent extends IntentService{
 
         public StopNavigationIntent() {
             super(StopNavigationIntent.class.getSimpleName());
@@ -40,6 +45,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         @Override
         protected void onHandleIntent(Intent intent) {
             Log.d("NavitaionService","StopNavigationIntent.onHandleIntent");
+            NavigationService.getInstance(getApplicationContext()).stopNavigation();
         }
     }
 
@@ -98,15 +104,14 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
             String actionNotif = context.getResources().getString(R.string.notif_stop_navigation);
 
             Intent intent = new Intent(context, StopNavigationIntent.class);
-            // use System.currentTimeMillis() to have a unique ID for the pending intent
-            PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
+            PendingIntent pIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-            mBuilder.setSmallIcon(R.drawable.ic_directions_bike_white_24dp);
-            mBuilder.setContentTitle(notifTitle);
-            mBuilder.setContentText(notifContent);
-            mBuilder.setOngoing(true);
-            mBuilder.addAction(R.drawable.ic_close_white_24dp, actionNotif, pIntent);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                    .setSmallIcon(R.drawable.ic_directions_bike_white_24dp)
+                    .setContentTitle(notifTitle)
+                    .setContentText(notifContent)
+                    .setOngoing(true)
+                    .addAction(R.drawable.ic_close_white_24dp, actionNotif, pIntent);
 
             NotificationManager mNotifyMgr =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -116,11 +121,11 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
     public void stopNavigation(){
         if(navigationIsRun && LocationUtils.checkLocationPermission(context)) {
-            //TODO: parar navegacio
+            //TODO: enviar al server que s'ha finalitzat la navegació
+            destroyNavigationNotification();
             navigationIsRun=false;
             destinationStation =null;
             locationManager.removeUpdates(this);
-            destroyNavigationNotification();
         }
     }
 
@@ -148,7 +153,27 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("NavigationService", "new location: " + location);
+        LatLng newPosition= new LatLng(location.getLatitude(),location.getLongitude());
+        double distance = MapsUtils.distBetween(newPosition,Station.getLatLng(destinationStation));
+        Log.d("NavigationService", "new location: (" + location.getLatitude() +","+location.getLongitude()+"), distance: "+distance+" m");
+
+        if(distance<20){
+            //TODO: Enviar al server que s'ha arrivat al destí
+            // TODO: Enviar al rellotge que s'ha arrivat al destí
+
+            String notifTitle = context.getResources().getString(R.string.notif_destination_arrive);
+            String notifContent = destinationStation.getName();
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                    .setSmallIcon(R.drawable.ic_place_white_24dp)
+                    .setContentTitle(notifTitle)
+                    .setContentText(notifContent);
+
+            NotificationManager mNotifyMgr =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotifyMgr.notify(NAVIGATION_FINISH_NOTIFICATION_ID, mBuilder.build());
+            stopNavigation();
+        }
     }
 
     @Override

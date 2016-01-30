@@ -134,9 +134,11 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.fab)
     public void onClickStartNavigation(View view){
         Log.d("MainActivity", "onClickStartNavigation");
-        if(destinationStation!=null)
+        if(destinationStation!=null) {
             navigationService.startNavigation(destinationStation);
-        else
+            //TODO: Enviar al server que s'ha començat la navegació
+            //TODO: Enviar al rellotge que s'ha començat la navegació
+        }else
             Toast.makeText(this,R.string.no_destination_selected,Toast.LENGTH_SHORT).show();
     }
 

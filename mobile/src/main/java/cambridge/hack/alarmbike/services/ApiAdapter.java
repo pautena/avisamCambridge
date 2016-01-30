@@ -11,8 +11,8 @@ import retrofit.Retrofit;
  */
 public class ApiAdapter {
     private static ApiAdapter instance;
-    private static final String API_URL ="api.citybik.es";//TODO: Posar els valors reals a la api i al port
-    private static final int API_PORT=2000;
+    private static final String API_URL ="178.62.24.71";
+    private static final int API_PORT=8000;
 
     public static ApiAdapter getInstance(){
         if(instance==null) instance= new ApiAdapter();

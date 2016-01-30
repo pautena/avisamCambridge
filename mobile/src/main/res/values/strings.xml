@@ -20,5 +20,6 @@
     <string name="registration_user_ok">Registration user successful</string>
     <string name="notif_title_navigation">You stay in route</string>
     <string name="notif_stop_navigation">Stop navigation</string>
+    <string name="notif_destination_arrive">You have reached your destination</string>
 
 </resources>

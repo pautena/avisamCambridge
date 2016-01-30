@@ -72,5 +72,9 @@
                 <action android:name="com.google.android.gms.iid.InstanceID"/>
             </intent-filter>
         </service>
+        <service
+            android:name=".services.NavigationService$StopNavigationIntent"
+            android:exported="false"
+            android:enabled="true"/>
     </application>
 </manifest>
