@@ -40,6 +40,8 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     private static final int NAVIGATION_NOTIFICATION_ID=1;
     private static final int NAVIGATION_FINISH_NOTIFICATION_ID=2;
 
+
+
     public static class StopNavigationIntent extends IntentService{
 
         public StopNavigationIntent() {
@@ -151,6 +153,10 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
     public Alarm getAlarm(){
         return alarm;
+    }
+
+    public void alarmPushRecived(Station newStation) {
+        //TODO: gestionar les notificacions per alarma push
     }
 
     @Override
