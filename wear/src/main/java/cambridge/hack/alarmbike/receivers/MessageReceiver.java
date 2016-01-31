@@ -3,9 +3,9 @@ package cambridge.hack.alarmbike.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import cambridge.hack.alarmbike.MapActivity.MapHandler;
 import cambridge.hack.alarmbike.model.Station;
@@ -29,7 +29,8 @@ public class MessageReceiver extends BroadcastReceiver {
 
 
         // TODO filter message
-        Station s = g.fromJson(msg, Station.class);
+        Station s = new Station(new Gson().fromJson(msg, JsonObject.class));
+        System.out.println(msg);
 
         handler.post(s);
     }

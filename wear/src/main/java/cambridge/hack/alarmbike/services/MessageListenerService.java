@@ -1,6 +1,7 @@
 package cambridge.hack.alarmbike.services;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -18,20 +19,28 @@ public class MessageListenerService extends WearableListenerService {
         Intent intent = new Intent(this, MapActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        startActivity(intent);
+        if (!MapActivity.running)
+            startActivity(intent);
 
         String nodeId = messageEvent.getSourceNodeId();
 
         Log.d(TAG, "Connected node: " + nodeId);
 
-        String list = new String(messageEvent.getData());
+        final String list = new String(messageEvent.getData());
 
         Log.d(TAG, "Received: " + list);
 
         // Broadcast
-        Intent messageIntent = new Intent();
-        messageIntent.setAction(Intent.ACTION_SEND);
-        messageIntent.putExtra("message", list);
-        //LocalBroadcastManager.getInstance(this).sendBroadcast(messageIntent);
+
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("delay", "delay");
+                Intent messageIntent = new Intent();
+                messageIntent.setAction(Intent.ACTION_SEND);
+                messageIntent.putExtra("message", list);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+            }
+        }, 3000);
     }
 }

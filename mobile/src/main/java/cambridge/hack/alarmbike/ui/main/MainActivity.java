@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity
             navigationService.startNavigation(destinationStation);
             //TODO: Enviar al server que s'ha començat la navegació
             Intent intent = new Intent(this, WearMessageService.class);
-            intent.putExtra("message", "[\"StartRoute\"]");
+            intent.putExtra("message", Station.getJson(destinationStation).toString());
             intent.putExtra("path", "/startNavigation");
             startService(intent);
         }else

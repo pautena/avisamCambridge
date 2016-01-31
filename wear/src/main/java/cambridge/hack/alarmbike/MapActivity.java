@@ -8,27 +8,37 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.DismissOverlayView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
+import android.view.WindowManager;
+import android.view.accessibility.AccessibilityRecord;
 import android.widget.FrameLayout;
 
 import cambridge.hack.alarmbike.model.Station;
 import cambridge.hack.alarmbike.receivers.MessageReceiver;
 
-public class MapActivity extends Activity implements OnMapReadyCallback,
+public class MapActivity extends WearableActivity implements OnMapReadyCallback,
         GoogleMap.OnMapLongClickListener {
+
+    public static boolean running = false;
 
     /**
      * Overlay that shows a short help text when first launched. It also provides an option to
      * exit the app.
      */
     private DismissOverlayView mDismissOverlay;
+    private MapFragment mMapFragment;
+    private LatLng mCurrentMarker;
 
     /**
      * The map. It is initialized when the map has been fully loaded and is ready to be used.
@@ -40,9 +50,10 @@ public class MapActivity extends Activity implements OnMapReadyCallback,
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
-        IntentFilter messageFilter = new IntentFilter(Intent.ACTION_SEND);
-        MessageReceiver messageReceiver = new MessageReceiver(new MapHandler());
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, messageFilter);
+        running = true;
+
+        setAmbientEnabled();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         // Set the layout. It only contains a MapFragment and a DismissOverlay.
         setContentView(R.layout.activity_map);
@@ -80,10 +91,28 @@ public class MapActivity extends Activity implements OnMapReadyCallback,
         mDismissOverlay.showIntroIfNecessary();
 
         // Obtain the MapFragment and set the async listener to be notified when the map is ready.
-        MapFragment mapFragment =
+        mMapFragment =
                 (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mMapFragment.getMapAsync(this);
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        running = false;
+    }
+
+    @Override
+    public void onEnterAmbient(Bundle ambientDetails) {
+        super.onEnterAmbient(ambientDetails);
+        mMapFragment.onEnterAmbient(ambientDetails);
+    }
+
+    @Override
+    public void onExitAmbient() {
+        super.onExitAmbient();
+        mMapFragment.onExitAmbient();
     }
 
     @Override
@@ -91,13 +120,27 @@ public class MapActivity extends Activity implements OnMapReadyCallback,
         // Map is ready to be used.
         mMap = googleMap;
 
+        IntentFilter messageFilter = new IntentFilter(Intent.ACTION_SEND);
+        MessageReceiver messageReceiver = new MessageReceiver(new MapHandler(mMap, this));
+
         // Set the long click listener as a way to exit the map.
         mMap.setOnMapLongClickListener(this);
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location loc) {
+                mMap.moveCamera(CameraUpdateFactory
+                        .newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 1f));
+                mMap.setOnMyLocationChangeListener(null);
+            }
+        });
 
-        // Add a marker in Sydney, Australia and move the camera.
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, messageFilter);
+
+        if (mCurrentMarker != null) {
+            mMap.addMarker(new MarkerOptions().position(mCurrentMarker));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(mCurrentMarker));
+        }
     }
 
     @Override
@@ -106,13 +149,25 @@ public class MapActivity extends Activity implements OnMapReadyCallback,
         mDismissOverlay.show();
     }
 
-    public class MapHandler extends Handler {
+    public static class MapHandler extends Handler {
 
-        public void post(Station station) {
-            this.post(new Runnable() {
+        GoogleMap mMap;
+        Activity mParent;
+
+        public MapHandler(GoogleMap map, Activity parent) {
+            mMap = map;
+            mParent = parent;
+        }
+
+        public void post(final Station station) {
+            mParent.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // Do the work
+                    LatLng pos = Station.getLatLng(station);
+                    MarkerOptions mo = new MarkerOptions().position(pos)
+                            .title(station.getName()); // TODO <-
+                    mMap.clear();
+                    mMap.addMarker(mo);
                 }
             });
         }

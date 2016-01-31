@@ -54,10 +54,12 @@ public class WearMessageService extends IntentService {
         return bestNodeId;
     }
 
-    private static void sendMessage(GoogleApiClient client, String nodeId,String message, String path) {
+    private static void sendMessage(GoogleApiClient client, String nodeId, String message, String path) {
         Log.d(TAG, "Sending message");
         System.out.println(nodeId);
         System.out.println(client.isConnected());
+        if (message == null)
+            message = "";
         Wearable.MessageApi
                 .sendMessage(client, nodeId, path, message.getBytes())
                 .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
