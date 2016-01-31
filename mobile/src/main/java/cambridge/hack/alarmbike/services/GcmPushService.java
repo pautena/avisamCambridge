@@ -37,15 +37,21 @@ public class GcmPushService extends GcmListenerService{
         Alarm alarm = NavigationService.getInstance(getApplicationContext()).getAlarm();
 
 
-        if(data.getString("path").equals("/destination")){
+        if(data.getString("path").equals("/destination") || data.getString("path").equals("/origin")){
             Station station = realm.where(Station.class).equalTo("uid",stationUid).findFirst();
+
             List<Station> stations = realm.where(Station.class).findAll();
             double minDist = Double.MAX_VALUE;
             Station minStation=null;
 
             for(Station aux : stations){
+                int var;
+                if(alarm.getState().equals(OriginOrDestination.DESTINATION))
+                    var = aux.getSlots();
+                else
+                    var = aux.getBikes();
                 double newDist = MapsUtils.distBetween(Station.getLatLng(station),Station.getLatLng(aux));
-                if(aux.getUid()!=station.getUid() && minDist> newDist){
+                if(aux.getUid()!=station.getUid() && minDist> newDist && var!=0){
                     minDist=newDist;
                     minStation= aux;
                 }
@@ -67,7 +73,7 @@ public class GcmPushService extends GcmListenerService{
 
             //Watch
             Intent intent = new Intent(getApplicationContext(), WearMessageService.class);
-            intent.putExtra("message", Station.getJson(alarm.getStation()).toString());
+            intent.putExtra("message", Station.getJson(station).toString());
             intent.putExtra("path", "/changeNavigation");
             startService(intent);
 

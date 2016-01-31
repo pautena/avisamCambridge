@@ -116,24 +116,28 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
                     measureTime,
                     measureMinDist, this);
 
-            String notifTitle= context.getResources().getString(R.string.notif_title_navigation);
-            String notifContent= alarm.getStation().getName();
-            String actionNotif = context.getResources().getString(R.string.notif_stop_navigation);
-
-            Intent intent = new Intent(context, StopNavigationIntent.class);
-            PendingIntent pIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.drawable.ic_directions_bike_white_24dp)
-                    .setContentTitle(notifTitle)
-                    .setContentText(notifContent)
-                    .setOngoing(true)
-                    .addAction(R.drawable.ic_close_white_24dp, actionNotif, pIntent);
-
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotifyMgr.notify(NAVIGATION_NOTIFICATION_ID, mBuilder.build());
+            showNavigateNotification();
         }
+    }
+
+    private void showNavigateNotification(){
+        String notifTitle= context.getResources().getString(R.string.notif_title_navigation);
+        String notifContent= alarm.getStation().getName();
+        String actionNotif = context.getResources().getString(R.string.notif_stop_navigation);
+
+        Intent intent = new Intent(context, StopNavigationIntent.class);
+        PendingIntent pIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_directions_bike_white_24dp)
+                .setContentTitle(notifTitle)
+                .setContentText(notifContent)
+                .setOngoing(true)
+                .addAction(R.drawable.ic_close_white_24dp, actionNotif, pIntent);
+
+        NotificationManager mNotifyMgr =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(NAVIGATION_NOTIFICATION_ID, mBuilder.build());
     }
 
     public int getStationUid(){ return stationUid;}
@@ -181,7 +185,10 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
         NotificationManager mNotifyMgr =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotifyMgr.cancel(NAVIGATION_ALARM_PUSH_NOTIFICATION_ID);
+        mNotifyMgr.notify(NAVIGATION_ALARM_PUSH_NOTIFICATION_ID,mBuilder.build());
+
+        alarm.setStation(newStation);
+        showNavigateNotification();
     }
 
     @Override
