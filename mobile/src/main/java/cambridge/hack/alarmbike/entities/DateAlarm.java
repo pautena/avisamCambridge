@@ -41,6 +41,7 @@ public class DateAlarm extends RealmObject {
 
     @PrimaryKey
     private int id;
+    private Date dataCreate;
     private Date initDate;
     private Date finishDate;
     private boolean tomorrowOnly;
@@ -56,6 +57,7 @@ public class DateAlarm extends RealmObject {
         this.initDate=initDate;
         this.finishDate=finishDate;
         this.tomorrowOnly=tomorrowOnly;
+        dataCreate= new Date();
         this.station=station;
         if(originOrDestination.equals(OriginOrDestination.DESTINATION))
             this.originOrDestination=1;
@@ -111,5 +113,13 @@ public class DateAlarm extends RealmObject {
 
     public void setOriginOrDestination(int originOrDestination) {
         this.originOrDestination = originOrDestination;
+    }
+
+    public Date getDataCreate() {
+        return dataCreate;
+    }
+
+    public void setDataCreate(Date dataCreate) {
+        this.dataCreate = dataCreate;
     }
 }
