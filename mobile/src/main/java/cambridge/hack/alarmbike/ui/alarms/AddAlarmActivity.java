@@ -46,7 +46,7 @@ public class AddAlarmActivity extends AppCompatActivity {
     @Bind(R.id.tvNameStation)
     TextView tvNameStation;
 
-    @Bind(R.id.button_origin)
+    @Bind(R.id.radio_origin)
     RadioButton radioOrigin;
 
     private Calendar initTime,finalTime;
@@ -98,7 +98,10 @@ public class AddAlarmActivity extends AppCompatActivity {
                 station,
                 originOrDestination);
 
+        realm.beginTransaction();
         realm.copyToRealmOrUpdate(alarm);
+        realm.commitTransaction();
+        finish();
     }
 
     @OnClick(R.id.init_picker)

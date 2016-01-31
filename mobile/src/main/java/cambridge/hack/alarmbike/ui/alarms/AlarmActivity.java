@@ -67,7 +67,9 @@ public class AlarmActivity extends AppCompatActivity {
                 closeIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        realm.beginTransaction();
                         entrada.removeFromRealm();
+                        realm.commitTransaction();
                         setAdapter();
                     }
                 });

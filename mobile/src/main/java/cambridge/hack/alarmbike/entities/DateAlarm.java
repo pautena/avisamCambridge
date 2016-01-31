@@ -15,10 +15,14 @@ import io.realm.annotations.PrimaryKey;
  */
 public class DateAlarm extends RealmObject {
     public static int getNextId(Context context){
-        Realm realm = Realm.getInstance(context);
-        int nextID = (int) (realm.where(DateAlarm.class).maximumInt("id") + 1);
-        realm.close();
-        return nextID;
+        try {
+            Realm realm = Realm.getInstance(context);
+            int nextID = (int) (realm.where(DateAlarm.class).maximumInt("id") + 1);
+            realm.close();
+            return nextID;
+        }catch(NullPointerException e){
+            return 0;
+        }
     }
 
     public static OriginOrDestination getOriginOrDestination(DateAlarm alarm){
