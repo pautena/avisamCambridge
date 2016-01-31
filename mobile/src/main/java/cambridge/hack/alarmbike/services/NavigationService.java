@@ -187,7 +187,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.notify(NAVIGATION_ALARM_PUSH_NOTIFICATION_ID,mBuilder.build());
 
-        alarm.setStation(newStation);
+        stationUid= newStation.getUid();
         showNavigateNotification();
     }
 
