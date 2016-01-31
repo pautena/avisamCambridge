@@ -11,6 +11,7 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import cambridge.hack.alarmbike.MapActivity;
+import cambridge.hack.alarmbike.R;
 
 /**
  * Created by joel on 1/30/16.
