@@ -248,6 +248,7 @@ public class MainActivity extends AppCompatActivity
             infoDestination.swipeVisibility();
         }else if(id==R.id.action_show_alarms){
             Intent intent = new Intent(this, AlarmActivity.class);
+            intent.putExtra(AddAlarmActivity.ARG_STATION,destinationStation.getUid());
             startActivity(intent);
         }
 

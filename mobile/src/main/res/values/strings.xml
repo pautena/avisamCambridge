@@ -36,5 +36,9 @@
     <string name="only_one_day">Only tomorrow</string>
     <string name="action_show_alarms">Alarms</string>
     <string name="action_add_alarm">Add alarm</string>
+    <string name="select_init_time">Select initial time</string>
+    <string name="select_final_time">Select final time</string>
+    <string name="only_for_tomorrow">Alarm only for tomorrow</string>
+    <string name="bad_time_input">Final time must be breather than starting time</string>
 
 </resources>

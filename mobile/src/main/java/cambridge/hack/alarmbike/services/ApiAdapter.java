@@ -11,6 +11,7 @@ import java.io.IOException;
 import cambridge.hack.alarmbike.callback.CreateAlarmCallback;
 import cambridge.hack.alarmbike.callback.RegisterUserCallback;
 import cambridge.hack.alarmbike.entities.Alarm;
+import cambridge.hack.alarmbike.entities.DateAlarm;
 import cambridge.hack.alarmbike.entities.Station;
 import cambridge.hack.alarmbike.enums.OriginOrDestination;
 import cambridge.hack.alarmbike.utils.UserUtils;
@@ -74,7 +75,7 @@ public class ApiAdapter {
     }
 
     public void createAlarm(Station station,OriginOrDestination state,CreateAlarmCallback callback){
-        Log.d("ApiAdapter","createAlarm");
+        Log.d("ApiAdapter", "createAlarm");
         if(state.equals(OriginOrDestination.DESTINATION)){
             createAlarmDestination(station,state,callback);
         }else{
@@ -90,9 +91,9 @@ public class ApiAdapter {
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Response<Integer> response, Retrofit retrofit) {
-                Log.d("ApiAdapter","onResponse("+response.code()+"): "+response.body());
-                if(response.isSuccess()) {
-                    callback.onCreateAlarm(new Alarm(response.body(),station, state));
+                Log.d("ApiAdapter", "onResponse(" + response.code() + "): " + response.body());
+                if (response.isSuccess()) {
+                    callback.onCreateAlarm(new Alarm(response.body(), station, state));
                 }
             }
 
@@ -107,7 +108,7 @@ public class ApiAdapter {
     public void createAlarmOrigin(final Station station, final OriginOrDestination state, final CreateAlarmCallback callback){
         String email = UserUtils.getUserEmail(context);
 
-        Call<Integer> call = service.createAlarmOrigin(email,String.valueOf(station.getUid()));
+        Call<Integer> call = service.createAlarmOrigin(email, String.valueOf(station.getUid()));
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Response<Integer> response, Retrofit retrofit) {
@@ -124,15 +125,22 @@ public class ApiAdapter {
         });
     }
 
-    public void finishAlarm(Alarm alarm) {
-        if(alarm.getState().equals(OriginOrDestination.DESTINATION))
-            finishAlarmDestination(alarm);
+    public void finishAlarm(DateAlarm alarm){
+        if(DateAlarm.getOriginOrDestination(alarm).equals(OriginOrDestination.DESTINATION))
+            finishAlarmDestination(alarm.getId());
         else
-            finishAlarmOrigin(alarm);
+            finishAlarmOrigin(alarm.getId());
     }
 
-    public void finishAlarmDestination(Alarm alarm){
-        Call<JsonObject> call = service.finishAlarmDestination(String.valueOf(alarm.getId()));
+    public void finishAlarm(Alarm alarm) {
+        if(alarm.getState().equals(OriginOrDestination.DESTINATION))
+            finishAlarmDestination(alarm.getId());
+        else
+            finishAlarmOrigin(alarm.getId());
+    }
+
+    public void finishAlarmDestination(int alarmId){
+        Call<JsonObject> call = service.finishAlarmDestination(String.valueOf(alarmId));
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -152,8 +160,8 @@ public class ApiAdapter {
         });
     }
 
-    public void finishAlarmOrigin(Alarm alarm){
-        Call<JsonObject> call = service.finishAlarmOrigin(String.valueOf(alarm.getId()));
+    public void finishAlarmOrigin(int alarmId){
+        Call<JsonObject> call = service.finishAlarmOrigin(String.valueOf(alarmId));
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
