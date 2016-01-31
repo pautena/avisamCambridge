@@ -74,6 +74,7 @@ public class ApiAdapter {
     }
 
     public void createAlarm(Station station,OriginOrDestination state,CreateAlarmCallback callback){
+        Log.d("ApiAdapter","createAlarm");
         if(state.equals(OriginOrDestination.DESTINATION)){
             createAlarmDestination(station,state,callback);
         }else{

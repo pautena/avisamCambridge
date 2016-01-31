@@ -53,16 +53,11 @@ import io.realm.Realm;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GetStationsCallback, GoogleMap.OnMarkerClickListener, LocationService.LocationServiceListener {
+        implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener,
+        GetStationsCallback, GoogleMap.OnMarkerClickListener, LocationService.LocationServiceListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
-    @Bind(R.id.drawer_layout)
-    DrawerLayout drawer;
-
-    @Bind(R.id.nav_view)
-    NavigationView navigationView;
 
     @Bind(R.id.info_destination)
     InfoDestination infoDestination;
@@ -86,7 +81,6 @@ public class MainActivity extends AppCompatActivity
 
         setupServices();
         setupToolbar();
-        setupNavigationView();
         setupMap();
 
         infoDestination.setOnClickOriginListener(new View.OnClickListener() {
@@ -134,15 +128,6 @@ public class MainActivity extends AppCompatActivity
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-    }
-
-    private void setupNavigationView() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setupMap() {
@@ -225,16 +210,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -262,38 +237,13 @@ public class MainActivity extends AppCompatActivity
             return true;
         }else if(id==R.id.action_show_hide_destination){
             infoDestination.swipeVisibility();
+        }else if(id==R.id.action_show_alarms){
+            Intent intent = new Intent(this, AlarmActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_alarms) {
-            Intent intent = new Intent(this, AlarmActivity.class);
-            startActivity(intent);
-        }  else if (id == R.id.nav_send) {
-            sendMessage();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    // TODO: REMOVE ME!
-    private void sendMessage() {
-        Log.d(MainActivity.class.getSimpleName(), "Send Message");
-        Intent intent = new Intent(this, WearMessageService.class);
-        intent.putExtra("message", "SomeTesting");
-        intent.putExtra("path", "/path");
-        startService(intent);
-    }
-
 
     @Override
     public void onGetStationsFinish(List<Station> stations) {

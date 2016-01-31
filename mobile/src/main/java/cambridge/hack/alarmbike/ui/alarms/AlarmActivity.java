@@ -7,7 +7,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -48,18 +51,26 @@ public class AlarmActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    @OnClick(R.id.fab)
-    public void onClickAddAlarm(View view){
-        Intent intent = new Intent(this,AlarmActivity.class);
-        startActivity(intent);
-    }
-
     public void setAdapter(){
         List<DateAlarm> alarms = realm.where(DateAlarm.class).findAll();
 
         listView.setAdapter(new ListAdapter<DateAlarm>(this,R.layout.date_alarm_list_item,alarms) {
             @Override
-            public void onEntrada(DateAlarm entrada, View view) {
+            public void onEntrada(final DateAlarm entrada, View view) {
+                TextView timeTv = (TextView) view.findViewById(R.id.textView);
+                CheckBox tomorrowCb= (CheckBox) view.findViewById(R.id.checkBox);
+                ImageView closeIv = (ImageView) view.findViewById(R.id.imageView);
+
+                String timeString = DateAlarm.getFormatTime(entrada);
+                timeTv.setText(timeString);
+                tomorrowCb.setChecked(entrada.isTomorrowOnly());
+                closeIv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        entrada.removeFromRealm();
+                        setAdapter();
+                    }
+                });
 
             }
         });

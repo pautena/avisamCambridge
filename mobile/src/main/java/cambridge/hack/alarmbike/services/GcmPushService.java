@@ -73,7 +73,7 @@ public class GcmPushService extends GcmListenerService{
 
             //Watch
             Intent intent = new Intent(getApplicationContext(), WearMessageService.class);
-            intent.putExtra("message", Station.getJson(station).toString());
+            intent.putExtra("message", Station.getJson(minStation).toString());
             intent.putExtra("path", "/changeNavigation");
             startService(intent);
 

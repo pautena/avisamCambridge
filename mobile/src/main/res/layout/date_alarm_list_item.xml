@@ -31,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBox"
+            android:enabled="false"
             android:layout_marginRight="@dimen/md_right_padding"
             android:checked="false" />
 
@@ -38,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="@string/only_one_day"
             android:id="@+id/textView2" />
     </LinearLayout>
 
