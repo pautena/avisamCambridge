@@ -30,10 +30,6 @@ public class BootReceiver extends BroadcastReceiver {
             Intent initIntent = new Intent().setAction("init").putExtra("id", alarm.getId());
             PendingIntent pending = PendingIntent.getService(context, 0, initIntent, 0);
             alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getInitDate().getTime(), pending);
-
-            Intent finishIntent = new Intent().setAction("finish").putExtra("id", alarm.getId());
-            pending = PendingIntent.getService(context, 0, finishIntent, 0);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getFinishDate().getTime(), pending);
         }
 
         realm.close();

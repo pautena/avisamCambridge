@@ -23,32 +23,30 @@ public class AlarmService extends IntentService {
         super("AlarmService");
     }
 
+    public static void registerAlarm(Context context, DateAlarm alarm) {
+        ApiAdapter.getInstance(context).createAlarm(alarm.getStation(),
+                (alarm.getOriginOrDestination() == OriginOrDestination.ORIGIN.ordinal()) ?
+                        OriginOrDestination.ORIGIN : OriginOrDestination.DESTINATION, new CreateAlarmCallback() {
+                    @Override
+                    public void onCreateAlarm(Alarm alarm) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+                });
+        ApiAdapter.getInstance(context).finishAlarm(alarm);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             int id = intent.getIntExtra("id", -1);
             if (id > 0) {
                 DateAlarm alarm = Realm.getInstance(this).where(DateAlarm.class).equalTo("id", id).findFirst();
-                switch (intent.getAction()) {
-                    case "init":
-                        ApiAdapter.getInstance(this).createAlarm(alarm.getStation(),
-                                (alarm.getOriginOrDestination() == OriginOrDestination.ORIGIN.ordinal()) ?
-                                        OriginOrDestination.ORIGIN : OriginOrDestination.DESTINATION, new CreateAlarmCallback() {
-                            @Override
-                            public void onCreateAlarm(Alarm alarm) {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable t) {
-
-                            }
-                        });
-                        break;
-                    case "end":
-                        ApiAdapter.getInstance(this).finishAlarm(alarm);
-                        break;
-                }
+                registerAlarm(this, alarm);
             }
         }
     }
