@@ -1,5 +1,6 @@
 package cambridge.hack.alarmbike.services;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.common.api.Api;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import cambridge.hack.alarmbike.callback.RegisterUserCallback;
 import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
+import cambridge.hack.alarmbike.utils.UserUtils;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -24,18 +27,21 @@ public class ApiAdapter {
     private static final String API_URL ="178.62.24.71";
     private static final int API_PORT=8000;
 
-    public static ApiAdapter getInstance(){
-        if(instance==null) instance= new ApiAdapter();
+    public static ApiAdapter getInstance(Context context){
+        if(instance==null) instance= new ApiAdapter(context.getApplicationContext());
         return instance;
     }
 
-    ApiService service;
+    private ApiService service;
+    private Context context;
 
-    private ApiAdapter(){
+    private ApiAdapter(Context context){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://" + API_URL + ":"+ API_PORT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        this.context=context;
 
         service = retrofit.create(ApiService.class);
     }
@@ -68,14 +74,87 @@ public class ApiAdapter {
 
 
     public void createAlarmDestination(Station station){
-        //TODO
+        String email = UserUtils.getUserEmail(context);
+
+        Call<JsonObject> call = service.createAlarmDestination(email,station.getUid());
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.d("ApiAdapter","onResponse("+response.code()+"): "+response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 
     public void createAlarmOrigin(Station station){
-        //TODO
+        String email = UserUtils.getUserEmail(context);
+
+        Call<JsonObject> call = service.createAlarmOrigin(email,station.getUid());
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                Log.d("ApiAdapter","onResponse("+response.code()+"): "+response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    public void finishAlarm(){
-        //TODO
+    public void finishAlarm(Alarm alarm) {
+        if(alarm.getState().equals(OriginOrDestination.DESTINATION))
+            finishAlarmDestination(alarm);
+        else
+            finishAlarmOrigin(alarm);
     }
+
+    public void finishAlarmDestination(Alarm alarm){
+        Call<JsonObject> call = service.finishAlarmDestination(alarm.getId());
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                if(response.isSuccess()){
+                    Log.d("ApiAdapter","finishAlarmDestination success. body: "+response.body());
+                }else{
+                    Log.e("ApiAdapter","finishAlarmDestination error");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void finishAlarmOrigin(Alarm alarm){
+        Call<JsonObject> call = service.finishAlarmOrigin(alarm.getId());
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+                if(response.isSuccess()){
+                    Log.d("ApiAdapter","finishAlarmDestination success. body: "+response.body());
+                }else{
+                    Log.e("ApiAdapter","finishAlarmDestination error");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+
 }

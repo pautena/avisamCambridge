@@ -156,9 +156,9 @@ public class MainActivity extends AppCompatActivity
             navigationService.startNavigation(destinationStation,infoDestination.getState());
             //Server
             if(infoDestination.getState().equals(OriginOrDestination.DESTINATION)){
-                ApiAdapter.getInstance().createAlarmDestination(destinationStation);
+                ApiAdapter.getInstance(this).createAlarmDestination(destinationStation);
             }else{
-                ApiAdapter.getInstance().createAlarmOrigin(destinationStation);
+                ApiAdapter.getInstance(this).createAlarmOrigin(destinationStation);
             }
 
             //Wear
