@@ -183,7 +183,8 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_warning_white_24dp)
                 .setContentTitle(notifTitle)
-                .setPriority(Notification.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
                 .setContentText(notifContent);
 
 
@@ -228,11 +229,13 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_place_white_24dp)
                     .setContentTitle(notifTitle)
-                    .setPriority(Notification.PRIORITY_MAX)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
                     .setContentText(notifContent);
 
             NotificationManager mNotifyMgr =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotifyMgr.cancel(NAVIGATION_ALARM_PUSH_NOTIFICATION_ID);
             mNotifyMgr.notify(NAVIGATION_FINISH_NOTIFICATION_ID, mBuilder.build());
             stopNavigation();
         }
