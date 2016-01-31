@@ -71,6 +71,8 @@ public class MessageListenerService extends WearableListenerService {
 
         Log.d(TAG, "Received: " + list);
 
+        Log.d(TAG, "Route: " + messageEvent.getPath());
+
         switch (messageEvent.getPath()) {
             case "/startNavigation":
                 startNavigation(list);
