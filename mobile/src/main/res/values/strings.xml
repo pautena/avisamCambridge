@@ -8,37 +8,37 @@
 
     <string name="google_key" translatable="false">AIzaSyCYH_kNzd7L0diy1Ed18Zvj-HtmXw9izhc</string>
     <string name="api_map_key" translatable="false">@string/google_key</string>
-    <string name="error_get_stations">NetworkError on getStations</string>
+    <string name="error_get_stations">Network error on getStations</string>
     <string name="action_my_location">My location</string>
     <string name="info_destination_title">%1$s%2$s</string>
     <string name="info_bikes_slots">%1$s bikes - %2$s slots</string>
     <string name="action_show_hide_destination">Show/Hide</string>
-    <string name="msg_no_position">Cannot have your location</string>
-    <string name="no_destination_selected">You cannot selected destination</string>
+    <string name="msg_no_position">Cannot retrieve your location</string>
+    <string name="no_destination_selected">Please select a bike station</string>
     <string name="google_dev_app_id">575065592816</string>
-    <string name="error_register_user">Error on register user</string>
-    <string name="registration_user_ok">Registration user successful</string>
-    <string name="notif_title_navigation">You stay in route</string>
+    <string name="error_register_user">Error while registering user</string>
+    <string name="registration_user_ok">User registration was successful</string>
+    <string name="notif_title_navigation">On route</string>
     <string name="notif_stop_navigation">Stop navigation</string>
-    <string name="notif_destination_arrive">You have reached your destination</string>
+    <string name="notif_destination_arrive">You arrived to your destination</string>
     <string name="title_activity_alarm">Alarms</string>
     <string name="nav_alarm">Alarms</string>
     <string name="destination">Destination</string>
     <string name="origin">Origin</string>
     <string name="info_destination_title_part_origin">Origin: </string>
     <string name="info_destination_title_part_destination">Destination: </string>
-    <string name="error_create_alarm">Error on create alarm</string>
-    <string name="notif_title_alarm_push">You haven\'t runout of %1$s </string>
+    <string name="error_create_alarm">Error creating alarm</string>
+    <string name="notif_title_alarm_push">No more %1$s on the bike station</string>
     <string name="notif_title_alarm_content">New station: %1$s</string>
     <string name="slots">slots</string>
     <string name="bikes">bikes</string>
-    <string name="title_activity_add_alarm">Add alarm</string>
+    <string name="title_activity_add_alarm">Add an alarm</string>
     <string name="only_one_day">Only tomorrow</string>
     <string name="action_show_alarms">Alarms</string>
-    <string name="action_add_alarm">Add alarm</string>
+    <string name="action_add_alarm">Add an alarm</string>
     <string name="select_init_time">Select initial time</string>
     <string name="select_final_time">Select final time</string>
     <string name="only_for_tomorrow">Alarm only for tomorrow</string>
-    <string name="bad_time_input">Final time must be breather than starting time</string>
+    <string name="bad_time_input">Final time must be earlier than starting time</string>
 
 </resources>
