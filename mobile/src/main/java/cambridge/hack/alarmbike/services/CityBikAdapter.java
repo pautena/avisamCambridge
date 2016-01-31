@@ -83,7 +83,8 @@ public class CityBikAdapter {
                             object.get("latitude").getAsDouble(),
                             object.get("longitude").getAsDouble()
                         );
-                        stations.add(station);
+                        if(station.getUid()<=377)
+                            stations.add(station);
                     }
 
                     Realm realm = Realm.getInstance(context);
