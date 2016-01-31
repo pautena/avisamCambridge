@@ -29,6 +29,7 @@ import cambridge.hack.alarmbike.entities.DateAlarm;
 import cambridge.hack.alarmbike.entities.Station;
 import cambridge.hack.alarmbike.enums.OriginOrDestination;
 import cambridge.hack.alarmbike.services.AlarmService;
+import cambridge.hack.alarmbike.services.BootReceiver;
 import io.realm.Realm;
 
 public class AddAlarmActivity extends AppCompatActivity {
@@ -104,7 +105,7 @@ public class AddAlarmActivity extends AppCompatActivity {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(alarm);
         realm.commitTransaction();
-        AlarmService.registerAlarm(this, alarm);
+        BootReceiver.registerAlarm(this, alarm);
 
         Intent intent = new Intent(this, AlarmActivity.class);
         startActivity(intent);

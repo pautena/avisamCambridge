@@ -23,6 +23,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity
     Realm realm;
     private Station destinationStation;
     private List<Marker> markers = new ArrayList<>();
+    private Marker selectedMarker=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,10 +212,29 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        if(selectedMarker!=null){
+            Station auxStation = realm.where(Station.class)
+                    .equalTo("latitude", marker.getPosition().latitude)
+                    .equalTo("longitude", marker.getPosition().longitude).findFirst();
+            selectedMarker.remove();
+
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(Station.getLatLng(auxStation));
+            Station.setMarkerByBikes(auxStation,markerOptions);
+            map.addMarker(markerOptions);
+        }
+
         destinationStation = realm.where(Station.class)
                 .equalTo("latitude",marker.getPosition().latitude)
                 .equalTo("longitude",marker.getPosition().longitude).findFirst();
         infoDestination.showStation(destinationStation);
+
+        marker.remove();
+        MarkerOptions markerOptions = new MarkerOptions()
+                                    .position(Station.getLatLng(destinationStation))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        selectedMarker = map.addMarker(markerOptions);
+
         Log.d("MainActivity", "selected destination. station id: " + destinationStation.getUid());
 
         return false;

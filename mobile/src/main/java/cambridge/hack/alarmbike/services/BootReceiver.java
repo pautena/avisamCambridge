@@ -40,6 +40,7 @@ public class BootReceiver extends BroadcastReceiver {
     }
 
     public BootReceiver() {
+
     }
 
     @Override
