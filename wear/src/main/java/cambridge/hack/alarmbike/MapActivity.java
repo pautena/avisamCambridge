@@ -58,11 +58,13 @@ public class MapActivity extends WearableActivity implements OnMapReadyCallback,
 
         running = true;
 
-        setAmbientEnabled();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         // Set the layout. It only contains a MapFragment and a DismissOverlay.
         setContentView(R.layout.activity_map);
+
+        setAmbientEnabled();
 
         // Retrieve the containers for the root of the layout and the map. Margins will need to be
         // set on them to account for the system window insets.
@@ -99,6 +101,7 @@ public class MapActivity extends WearableActivity implements OnMapReadyCallback,
         // Obtain the MapFragment and set the async listener to be notified when the map is ready.
         mMapFragment =
                 (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+
         mMapFragment.getMapAsync(this);
 
     }

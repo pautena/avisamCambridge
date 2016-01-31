@@ -6,7 +6,6 @@
     android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    map:ambientEnabled="true"
     tools:context="cambridge.hack.alarmbike.MapActivity">
 
     <FrameLayout
