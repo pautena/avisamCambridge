@@ -23,7 +23,7 @@ public class AlarmService extends IntentService {
         super("AlarmService");
     }
 
-    public static void registerAlarm(Context context, DateAlarm alarm) {
+    private static void registerAlarm(Context context, DateAlarm alarm) {
         ApiAdapter.getInstance(context).createAlarm(alarm.getStation(),
                 (alarm.getOriginOrDestination() == OriginOrDestination.ORIGIN.ordinal()) ?
                         OriginOrDestination.ORIGIN : OriginOrDestination.DESTINATION, new CreateAlarmCallback() {
@@ -45,8 +45,21 @@ public class AlarmService extends IntentService {
         if (intent != null) {
             int id = intent.getIntExtra("id", -1);
             if (id > 0) {
-                DateAlarm alarm = Realm.getInstance(this).where(DateAlarm.class).equalTo("id", id).findFirst();
-                registerAlarm(this, alarm);
+                Realm realm = Realm.getInstance(this);
+                DateAlarm alarm = realm.where(DateAlarm.class).equalTo("id", id).findFirst();
+                switch (intent.getAction()) {
+                    case "init":
+                        registerAlarm(this, alarm);
+                        break;
+                    case "end":
+                        ApiAdapter.getInstance(this).finishAlarm(alarm);
+                        break;
+                    case "tomorrow":
+                        realm.beginTransaction();
+                        alarm.removeFromRealm();
+                        realm.commitTransaction();
+                        break;
+                }
             }
         }
     }
