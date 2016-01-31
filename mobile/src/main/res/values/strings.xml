@@ -32,5 +32,6 @@
     <string name="notif_title_alarm_content">New station: %1$s</string>
     <string name="slots">slots</string>
     <string name="bikes">bikes</string>
+    <string name="title_activity_add_alarm">AddAlarmActivity</string>
 
 </resources>

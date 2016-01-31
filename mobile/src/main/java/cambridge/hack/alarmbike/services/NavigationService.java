@@ -79,6 +79,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     private GoogleApiClient mGoogleApiClient;
     private int measureTime,measureMinDist;
     private Alarm alarm;
+    private int stationUid;
 
 
     private NavigationService(Context context){
@@ -104,6 +105,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         if(!navigationIsRun && LocationUtils.checkLocationPermission(context)){
             navigationIsRun=true;
             this.alarm=alarm;
+            stationUid = alarm.getStation().getUid();
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     measureTime,
@@ -133,6 +135,8 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
             mNotifyMgr.notify(NAVIGATION_NOTIFICATION_ID, mBuilder.build());
         }
     }
+
+    public int getStationUid(){ return stationUid;}
 
     public void stopNavigation(){
         if(navigationIsRun && LocationUtils.checkLocationPermission(context)) {

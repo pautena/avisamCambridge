@@ -16,4 +16,5 @@
     <dimen name="md_margin_top">8dp</dimen>
     <dimen name="md_bottom_margin">16dp</dimen>
     <dimen name="md_top_margin">16dp</dimen>
+    <dimen name="date_alarm_list_item_height">104dp</dimen>
 </resources>
