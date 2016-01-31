@@ -1,6 +1,7 @@
 package cambridge.hack.alarmbike.services;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -80,6 +81,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     private int measureTime,measureMinDist;
     private Alarm alarm;
     private int stationUid;
+    private String stationName;
 
 
     private NavigationService(Context context){
@@ -106,6 +108,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
             navigationIsRun=true;
             this.alarm=alarm;
             stationUid = alarm.getStation().getUid();
+            stationName = alarm.getStation().getName();
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     measureTime,
@@ -122,7 +125,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
     private void showNavigateNotification(){
         String notifTitle= context.getResources().getString(R.string.notif_title_navigation);
-        String notifContent= alarm.getStation().getName();
+        String notifContent= stationName;
         String actionNotif = context.getResources().getString(R.string.notif_stop_navigation);
 
         Intent intent = new Intent(context, StopNavigationIntent.class);
@@ -180,6 +183,8 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_warning_white_24dp)
                 .setContentTitle(notifTitle)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
                 .setContentText(notifContent);
 
 
@@ -188,6 +193,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         mNotifyMgr.notify(NAVIGATION_ALARM_PUSH_NOTIFICATION_ID,mBuilder.build());
 
         stationUid= newStation.getUid();
+        stationName = newStation.getName();
         showNavigateNotification();
     }
 
@@ -223,10 +229,13 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_place_white_24dp)
                     .setContentTitle(notifTitle)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
                     .setContentText(notifContent);
 
             NotificationManager mNotifyMgr =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotifyMgr.cancel(NAVIGATION_ALARM_PUSH_NOTIFICATION_ID);
             mNotifyMgr.notify(NAVIGATION_FINISH_NOTIFICATION_ID, mBuilder.build());
             stopNavigation();
         }
