@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
+import cambridge.hack.alarmbike.callback.CreateAlarmCallback;
 import cambridge.hack.alarmbike.callback.RegisterUserCallback;
 import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.Station;
@@ -52,7 +53,7 @@ public class ApiAdapter {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                Log.d("ApiAdapter", "onRresponse body: " + response.body());
+                Log.d("ApiAdapter", "onResponse body: " + response.body());
                 if(response.isSuccess()){
 
                 }else{
@@ -72,8 +73,16 @@ public class ApiAdapter {
         });
     }
 
+    public void createAlarm(Station station,OriginOrDestination state,CreateAlarmCallback callback){
+        if(state.equals(OriginOrDestination.DESTINATION)){
+            createAlarmDestination(station,state,callback);
+        }else{
+            createAlarmOrigin(station,state,callback);
+        }
+    }
 
-    public void createAlarmDestination(Station station){
+
+    public void createAlarmDestination(final Station station, final OriginOrDestination state, final CreateAlarmCallback callback){
         String email = UserUtils.getUserEmail(context);
 
         Call<JsonObject> call = service.createAlarmDestination(email,station.getUid());
@@ -81,6 +90,9 @@ public class ApiAdapter {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
                 Log.d("ApiAdapter","onResponse("+response.code()+"): "+response.body());
+                if(response.isSuccess()) {
+                    callback.onCreateAlarm(new Alarm(station, state));
+                }
             }
 
             @Override
@@ -91,14 +103,17 @@ public class ApiAdapter {
 
     }
 
-    public void createAlarmOrigin(Station station){
+    public void createAlarmOrigin(final Station station, final OriginOrDestination state, final CreateAlarmCallback callback){
         String email = UserUtils.getUserEmail(context);
 
         Call<JsonObject> call = service.createAlarmOrigin(email,station.getUid());
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                Log.d("ApiAdapter","onResponse("+response.code()+"): "+response.body());
+                Log.d("ApiAdapter", "onResponse(" + response.code() + "): " + response.body());
+                if(response.isSuccess()) {
+                    callback.onCreateAlarm(new Alarm(station, state));
+                }
             }
 
             @Override

@@ -98,10 +98,10 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         measureMinDist=context.getResources().getInteger(R.integer.measure_min_dist);
     }
 
-    public void startNavigation(Station destinationStation, OriginOrDestination state){
+    public void startNavigation(Alarm alarm){
         if(!navigationIsRun && LocationUtils.checkLocationPermission(context)){
             navigationIsRun=true;
-            alarm = new Alarm(destinationStation,state);
+            this.alarm=alarm;
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     measureTime,
@@ -113,7 +113,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
                     measureMinDist, this);
 
             String notifTitle= context.getResources().getString(R.string.notif_title_navigation);
-            String notifContent= destinationStation.getName();
+            String notifContent= alarm.getStation().getName();
             String actionNotif = context.getResources().getString(R.string.notif_stop_navigation);
 
             Intent intent = new Intent(context, StopNavigationIntent.class);

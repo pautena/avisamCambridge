@@ -15,22 +15,22 @@ import retrofit.http.Path;
 public interface ApiService {
 
     @FormUrlEncoded
-    @POST("/signup")
-    Call<JsonObject> signIn(@Field("email") String email, @Field("googletoken")String registrationId);
+    @POST("/signup/")
+    Call<JsonObject> signIn(@Field("email") String email, @Field("google_token")String registrationId);
 
     @FormUrlEncoded
-    @POST("/alarm")
-    Call<JsonObject> createAlarmDestination(@Field("appuser")String email, @Field("station") int stationId);
+    @POST("/alarm/")
+    Call<JsonObject> createAlarmDestination(@Field("app_user")String email, @Field("station") int stationId);
 
     @FormUrlEncoded
-    @POST("/alarm")
-    Call<JsonObject> createAlarmOrigin(@Field("appuser")String email, @Field("station") int stationId);
+    @POST("/alarmOrigin/")
+    Call<JsonObject> createAlarmOrigin(@Field("app_user")String email, @Field("station") int stationId);
 
     @FormUrlEncoded
-    @DELETE("/alarm/{id}")
+    @DELETE("/alarm/{id}/")
     Call<JsonObject> finishAlarmDestination(@Path("id") int id);
 
     @FormUrlEncoded
-    @DELETE("/alarmOrigin/{id}")
+    @DELETE("/alarmOrigin/{id}/")
     Call<JsonObject> finishAlarmOrigin(@Path("id") int id);
 }

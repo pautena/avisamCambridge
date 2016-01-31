@@ -34,7 +34,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cambridge.hack.alarmbike.R;
+import cambridge.hack.alarmbike.callback.CreateAlarmCallback;
 import cambridge.hack.alarmbike.callback.GetStationsCallback;
+import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.Station;
 import cambridge.hack.alarmbike.enums.OriginOrDestination;
 import cambridge.hack.alarmbike.services.AlarmbikeInstanceIDListenerService;
@@ -153,19 +155,27 @@ public class MainActivity extends AppCompatActivity
     public void onClickStartNavigation(View view){
         Log.d("MainActivity", "onClickStartNavigation");
         if(destinationStation!=null && !infoDestination.getState().equals(OriginOrDestination.NONE)) {
-            navigationService.startNavigation(destinationStation,infoDestination.getState());
-            //Server
-            if(infoDestination.getState().equals(OriginOrDestination.DESTINATION)){
-                ApiAdapter.getInstance(this).createAlarmDestination(destinationStation);
-            }else{
-                ApiAdapter.getInstance(this).createAlarmOrigin(destinationStation);
-            }
+            ApiAdapter.getInstance(this).createAlarm(destinationStation, infoDestination.getState(), new CreateAlarmCallback() {
+                @Override
+                public void onCreateAlarm(Alarm alarm) {
+                    navigationService.startNavigation(alarm);
+                    //Wear
+                    Intent intent = new Intent(MainActivity.this, WearMessageService.class);
+                    intent.putExtra("message", "[\"StartRoute\"]");
+                    intent.putExtra("path", "/startNavigation");
+                    startService(intent);
+                }
 
-            //Wear
-            Intent intent = new Intent(this, WearMessageService.class);
-            intent.putExtra("message", "[\"StartRoute\"]");
-            intent.putExtra("path", "/startNavigation");
-            startService(intent);
+                @Override
+                public void onError(Throwable t) {
+                    Toast.makeText(MainActivity.this,R.string.error_create_alarm,Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+
+
         }else
             Toast.makeText(this,R.string.no_destination_selected,Toast.LENGTH_SHORT).show();
     }
