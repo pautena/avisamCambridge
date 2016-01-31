@@ -14,42 +14,57 @@
     android:visibility="gone"
     android:background="@color/md_white">
 
-    <TextView
-        android:id="@+id/tv_top"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Text de prova superior"
-        android:layout_marginTop="@dimen/md_margin_top"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/id_top_text_color"
-        android:textSize="@dimen/id_top_text_size"
-        android:textStyle="bold" />
+        android:layout_weight="0.5"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/tv_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Text de prova inferior"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/id_bottom_text_color"
-        android:textSize="@dimen/id_bottom_text_size"
-        android:textStyle="normal" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Text de prova superior"
+                android:layout_marginTop="@dimen/md_margin_top"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/id_top_text_color"
+                android:textSize="@dimen/id_top_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Text de prova inferior"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/id_bottom_text_color"
+                android:textSize="@dimen/id_bottom_text_size"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:layout_alignParentRight="true"
+            android:stateListAnimator="@null"
+            android:textColor="@color/colorPrimary"
+            android:src="@drawable/ic_alarm_add_white_24dp"
+            android:tint="@color/colorPrimary"
+            android:id="@+id/button_add_alarm" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="right">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:stateListAnimator="@null"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/action_add_alarm"
-            android:layout_marginRight="@dimen/md_right_padding"
-            android:id="@+id/button_add_alarm" />
 
         <Button
             android:layout_width="wrap_content"

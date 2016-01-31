@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,AddAlarmActivity.class);
+                intent.putExtra(AddAlarmActivity.ARG_STATION,destinationStation.getUid());
                 startActivity(intent);
             }
         });
@@ -248,7 +249,6 @@ public class MainActivity extends AppCompatActivity
             infoDestination.swipeVisibility();
         }else if(id==R.id.action_show_alarms){
             Intent intent = new Intent(this, AlarmActivity.class);
-            intent.putExtra(AddAlarmActivity.ARG_STATION,destinationStation.getUid());
             startActivity(intent);
         }
 

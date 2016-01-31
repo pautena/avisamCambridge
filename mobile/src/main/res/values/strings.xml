@@ -21,7 +21,7 @@
     <string name="notif_title_navigation">You stay in route</string>
     <string name="notif_stop_navigation">Stop navigation</string>
     <string name="notif_destination_arrive">You have reached your destination</string>
-    <string name="title_activity_alarm">AlarmActivity</string>
+    <string name="title_activity_alarm">Alarms</string>
     <string name="nav_alarm">Alarms</string>
     <string name="destination">Destination</string>
     <string name="origin">Origin</string>
@@ -32,7 +32,7 @@
     <string name="notif_title_alarm_content">New station: %1$s</string>
     <string name="slots">slots</string>
     <string name="bikes">bikes</string>
-    <string name="title_activity_add_alarm">AddAlarmActivity</string>
+    <string name="title_activity_add_alarm">Add alarm</string>
     <string name="only_one_day">Only tomorrow</string>
     <string name="action_show_alarms">Alarms</string>
     <string name="action_add_alarm">Add alarm</string>

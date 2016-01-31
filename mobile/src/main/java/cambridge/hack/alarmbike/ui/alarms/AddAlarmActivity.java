@@ -1,5 +1,6 @@
 package cambridge.hack.alarmbike.ui.alarms;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,10 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,6 +25,7 @@ import butterknife.OnClick;
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.entities.DateAlarm;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
 import io.realm.Realm;
 
 public class AddAlarmActivity extends AppCompatActivity {
@@ -39,6 +43,12 @@ public class AddAlarmActivity extends AppCompatActivity {
     @Bind(R.id.cb_select_only_tomorrow)
     CheckBox cbSelectOnlyTomorrow;
 
+    @Bind(R.id.tvNameStation)
+    TextView tvNameStation;
+
+    @Bind(R.id.button_origin)
+    RadioButton radioOrigin;
+
     private Calendar initTime,finalTime;
     private Realm realm;
     private Station station;
@@ -52,10 +62,9 @@ public class AddAlarmActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         realm = Realm.getInstance(this);
 
-        if(getIntent().getExtras().containsKey(ARG_STATION)){
-            int uid=getIntent().getExtras().getInt(ARG_STATION);
-            station = realm.where(Station.class).equalTo("uid",uid).findFirst();
-        }
+        int uid=getIntent().getIntExtra(ARG_STATION,-1);
+        station = realm.where(Station.class).equalTo("uid",uid).findFirst();
+        tvNameStation.setText(station.getName());
 
         initTime = Calendar.getInstance();
         initTime.set(Calendar.HOUR_OF_DAY, 8);
@@ -75,43 +84,68 @@ public class AddAlarmActivity extends AppCompatActivity {
     @OnClick(R.id.fab)
     public void onClickCreateAlarm(View view){
         Log.d("AddAlarmActivity", "onClickCreateAlarm");
-        DateAlarm alarm = new DateAlarm();
+        OriginOrDestination originOrDestination;
+
+        if(radioOrigin.isChecked())
+            originOrDestination= OriginOrDestination.ORIGIN;
+        else
+            originOrDestination=OriginOrDestination.DESTINATION;
+
+        DateAlarm alarm = new DateAlarm(this,
+                initTime.getTime(),
+                finalTime.getTime(),
+                cbSelectOnlyTomorrow.isSelected(),
+                station,
+                originOrDestination);
+
+        realm.copyToRealmOrUpdate(alarm);
     }
 
     @OnClick(R.id.init_picker)
     public void selectInitTime(View view){
-        TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog dialog = new TimePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Calendar aux = Calendar.getInstance();
                 aux.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 aux.set(Calendar.MINUTE,minute);
 
-                if(checkPosterior(finalTime,aux)){
+                if(checkPosterior(aux,finalTime)){
                     initTime=aux;
+                    tvSelectInitTime.setText(getFormatedDate(initTime));
                 }else{
                     Toast.makeText(AddAlarmActivity.this,R.string.bad_time_input,Toast.LENGTH_SHORT).show();
                 }
             }
         },initTime.get(Calendar.HOUR_OF_DAY),initTime.get(Calendar.MINUTE),true);
+        dialog.show();
     }
 
     @OnClick(R.id.final_picker)
     public void selectFinalTime(View view){
-        TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog dialog = new TimePickerDialog(this, R.style.Theme_Dialog,
+        new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Calendar aux = Calendar.getInstance();
                 aux.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 aux.set(Calendar.MINUTE,minute);
 
-                if(checkPosterior(aux,initTime)){
+                if(checkPosterior(initTime,aux)){
                     finalTime=aux;
+                    tvSelectFinalTime.setText(getFormatedDate(finalTime));
                 }else{
                     Toast.makeText(AddAlarmActivity.this,R.string.bad_time_input,Toast.LENGTH_SHORT).show();
                 }
             }
         },finalTime.get(Calendar.HOUR_OF_DAY),finalTime.get(Calendar.MINUTE),true);
+        dialog.show();
+    }
+
+    private String getFormatedDate(Calendar calendar){
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        return format.format(calendar.getTime());
     }
 
     private boolean checkPosterior(Calendar end,Calendar ini){

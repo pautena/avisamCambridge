@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.WebStorage;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,8 @@ public class InfoDestination extends LinearLayout {
 
     TextView tvTop,tvBottom;
     LinearLayout rootLayout;
-    Button buttonOrigin,buttonDestination,buttonAddAlarm;
+    Button buttonOrigin,buttonDestination;
+    ImageButton buttonAddAlarm;
     private boolean isShown;
     private Station station;
     private OriginOrDestination state=OriginOrDestination.NONE;
@@ -62,7 +64,7 @@ public class InfoDestination extends LinearLayout {
         rootLayout = (LinearLayout) findViewById(R.id.root_layout);
         buttonOrigin= (Button) findViewById(R.id.button_origin);
         buttonDestination=(Button) findViewById(R.id.button_destination);
-        buttonAddAlarm=(Button) findViewById(R.id.button_add_alarm);
+        buttonAddAlarm=(ImageButton) findViewById(R.id.button_add_alarm);
         isShown =false;
 
         buttonOrigin.setOnClickListener(new OnClickListener() {

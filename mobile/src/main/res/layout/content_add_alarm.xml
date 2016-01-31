@@ -12,10 +12,20 @@
     tools:context="cambridge.hack.alarmbike.ui.alarms.AddAlarmActivity"
     tools:showIn="@layout/activity_add_alarm">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/tvNameStation"
+        android:gravity="center_horizontal" />
+
     <LinearLayout
         android:id="@+id/init_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tvNameStation"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -98,14 +108,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/origin"
-            android:id="@+id/radioButton2"
-            android:checked="false" />
+            android:id="@+id/radio_origin"
+            android:checked="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/destination"
-            android:id="@+id/radioButton" />
+            android:id="@+id/radio_destination" />
     </RadioGroup>
+
+
 
 </RelativeLayout>
