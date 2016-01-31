@@ -4,12 +4,15 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.webkit.WebStorage;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
 
 /**
  * Created by Duffman on 30/1/16.
@@ -18,8 +21,22 @@ public class InfoDestination extends LinearLayout {
 
     TextView tvTop,tvBottom;
     LinearLayout rootLayout;
+    Button buttonOrigin,buttonDestination;
     private boolean isShown;
     private Station station;
+    private OriginOrDestination state=OriginOrDestination.NONE;
+    private View.OnClickListener onClickDestination= new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+    private View.OnClickListener onClickOrigin= new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
     public InfoDestination(Context context) {
         super(context);
@@ -36,7 +53,29 @@ public class InfoDestination extends LinearLayout {
         tvTop= (TextView) findViewById(R.id.tv_top);
         tvBottom= (TextView) findViewById(R.id.tv_bottom);
         rootLayout = (LinearLayout) findViewById(R.id.root_layout);
+        buttonOrigin= (Button) findViewById(R.id.button_origin);
+        buttonDestination=(Button) findViewById(R.id.button_destination);
         isShown =false;
+
+        buttonOrigin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideButtons();
+                String part = getResources().getString(R.string.info_destination_title_part_origin);
+                setTop(getResources().getString(R.string.info_destination_title, part, station.getName()));
+                onClickOrigin.onClick(v);
+            }
+        });
+
+        buttonDestination.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideButtons();
+                String part = getResources().getString(R.string.info_destination_title_part_destination);
+                setTop(getResources().getString(R.string.info_destination_title, part, station.getName()));
+                onClickDestination.onClick(v);
+            }
+        });
     }
 
     public void setTop(String text){
@@ -49,12 +88,41 @@ public class InfoDestination extends LinearLayout {
 
     public void showStation(Station station){
         this.station=station;
-        String topText= getResources().getString(R.string.info_destination_title,station.getName());
+        state=OriginOrDestination.NONE;
+        showButtons();
+
+        String topText= getResources().getString(R.string.info_destination_title,"",station.getName());
         setTop(topText);
         String bottomText= getResources().getString(R.string.info_bikes_slots,station.getBikes(),station.getSlots());
         setBottom(bottomText);
 
         show();
+    }
+
+    public void setState(OriginOrDestination state){
+        this.state=state;
+    }
+
+    public OriginOrDestination getState(){
+        return state;
+    }
+
+    public void setOnClickOriginListener(OnClickListener listener){
+        onClickOrigin=listener;
+    }
+
+    public void setOnClickDestinationListener(OnClickListener listener){
+        onClickDestination=listener;
+    }
+
+    public void showButtons(){
+        buttonOrigin.setVisibility(View.VISIBLE);
+        buttonDestination.setVisibility(View.VISIBLE);
+    }
+
+    public void hideButtons(){
+        buttonOrigin.setVisibility(View.GONE);
+        buttonDestination.setVisibility(View.GONE);
     }
 
     public void show(){
@@ -64,8 +132,6 @@ public class InfoDestination extends LinearLayout {
             anim.setDuration(400);
             anim.start();
             isShown =true;
-        }else if(station!=null){
-            Toast.makeText(getContext(),R.string.no_destination_selected,Toast.LENGTH_SHORT).show();
         }
     }
 

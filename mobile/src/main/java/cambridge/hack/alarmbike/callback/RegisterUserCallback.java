@@ -6,4 +6,6 @@ package cambridge.hack.alarmbike.callback;
 public interface RegisterUserCallback {
     void onRegisterFinish();
     void onError(Throwable throwable);
+
+    void onError(int code, String string);
 }

@@ -24,7 +24,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import cambridge.hack.alarmbike.R;
+import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
+import cambridge.hack.alarmbike.ui.main.customViews.infoDestination.InfoDestination;
 import cambridge.hack.alarmbike.utils.LocationUtils;
 import cambridge.hack.alarmbike.utils.MapsUtils;
 
@@ -36,6 +39,9 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,LocationListener {
     private static final int NAVIGATION_NOTIFICATION_ID=1;
     private static final int NAVIGATION_FINISH_NOTIFICATION_ID=2;
+
+
+
     public static class StopNavigationIntent extends IntentService{
 
         public StopNavigationIntent() {
@@ -45,7 +51,11 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         @Override
         protected void onHandleIntent(Intent intent) {
             Log.d("NavitaionService","StopNavigationIntent.onHandleIntent");
-            //TODO: enviar al server que s'ha finalitzat la navegació
+            //Server
+            ApiAdapter.getInstance(getApplicationContext())
+                    .finishAlarm(NavigationService.getInstance(getApplicationContext()).getAlarm());
+
+            //Wear
             Intent i = new Intent(this, WearMessageService.class);
             i.putExtra("path", "/stopNavigation");
             startService(i);
@@ -67,7 +77,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     private LocationManager locationManager;
     private GoogleApiClient mGoogleApiClient;
     private int measureTime,measureMinDist;
-    private Station destinationStation;
+    private Alarm alarm;
 
 
     private NavigationService(Context context){
@@ -89,10 +99,10 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         measureMinDist=context.getResources().getInteger(R.integer.measure_min_dist);
     }
 
-    public void startNavigation(Station destinationStation){
+    public void startNavigation(Alarm alarm){
         if(!navigationIsRun && LocationUtils.checkLocationPermission(context)){
             navigationIsRun=true;
-            this.destinationStation = destinationStation;
+            this.alarm=alarm;
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     measureTime,
@@ -104,7 +114,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
                     measureMinDist, this);
 
             String notifTitle= context.getResources().getString(R.string.notif_title_navigation);
-            String notifContent= destinationStation.getName();
+            String notifContent= alarm.getStation().getName();
             String actionNotif = context.getResources().getString(R.string.notif_stop_navigation);
 
             Intent intent = new Intent(context, StopNavigationIntent.class);
@@ -128,7 +138,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
 
             destroyNavigationNotification();
             navigationIsRun=false;
-            destinationStation =null;
+            alarm =null;
             locationManager.removeUpdates(this);
         }
     }
@@ -138,6 +148,14 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(NAVIGATION_NOTIFICATION_ID);
 
+    }
+
+    public Alarm getAlarm(){
+        return alarm;
+    }
+
+    public void alarmPushRecived(Station newStation) {
+        //TODO: gestionar les notificacions per alarma push
     }
 
     @Override
@@ -158,7 +176,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     @Override
     public void onLocationChanged(Location location) {
         LatLng newPosition= new LatLng(location.getLatitude(),location.getLongitude());
-        double distance = MapsUtils.distBetween(newPosition,Station.getLatLng(destinationStation));
+        double distance = MapsUtils.distBetween(newPosition,Station.getLatLng(alarm.getStation()));
         Log.d("NavigationService", "new location: (" + location.getLatitude() +","+location.getLongitude()+"), distance: "+distance+" m");
 
         if(distance<20){
@@ -167,7 +185,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
             i.putExtra("path", "/endNavigation");
             context.startService(i);
             String notifTitle = context.getResources().getString(R.string.notif_destination_arrive);
-            String notifContent = destinationStation.getName();
+            String notifContent = alarm.getStation().getName();
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_place_white_24dp)

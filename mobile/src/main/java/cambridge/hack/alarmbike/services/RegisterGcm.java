@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.callback.RegisterUserCallback;
+import cambridge.hack.alarmbike.utils.UserUtils;
 
 
 /**
@@ -31,16 +32,7 @@ public class RegisterGcm extends AsyncTask<Void,Void,String> implements Register
     @Override
     protected String doInBackground(Void... params)
     {
-        AccountManager manager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
-        Account[] accounts = manager.getAccounts();
-
-        boolean found= false;
-        for(int i=0; i<accounts.length && !found;++i){
-            if(checkIsEmail(accounts[i].name)){
-                email = accounts[i].name;
-                Log.d("RegisterGcm","registration email: "+email);
-            }
-        }
+        email = UserUtils.getUserEmail(context);
 
         try
         {
@@ -60,19 +52,13 @@ public class RegisterGcm extends AsyncTask<Void,Void,String> implements Register
         return null;
     }
 
-    private boolean checkIsEmail(String email){
-        String[] parts = email.split("@");
-        if (parts.length > 0 && parts[0] != null)
-            return true;
-        else
-            return false;
-    }
+
 
     @Override
     protected void onPostExecute(String regId) {
         super.onPostExecute(regId);
         if(regId!=null && email!=null){
-            ApiAdapter.getInstance().registerUser(email, regId, this);
+            ApiAdapter.getInstance(context).registerUser(email, regId, this);
         }
     }
 
@@ -86,5 +72,12 @@ public class RegisterGcm extends AsyncTask<Void,Void,String> implements Register
         throwable.printStackTrace();
         Log.e("RegisterGcm", "onError: " + throwable.getMessage());
         Toast.makeText(context,R.string.error_register_user,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onError(int code, String message) {
+        Log.e("RegisterGcm", "onError. code: "+code+", message: "+message);
+        Toast.makeText(context,R.string.error_register_user,Toast.LENGTH_SHORT).show();
+
     }
 }
