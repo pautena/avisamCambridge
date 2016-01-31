@@ -21,7 +21,7 @@ public class InfoDestination extends LinearLayout {
 
     TextView tvTop,tvBottom;
     LinearLayout rootLayout;
-    Button buttonOrigin,buttonDestination;
+    Button buttonOrigin,buttonDestination,buttonAddAlarm;
     private boolean isShown;
     private Station station;
     private OriginOrDestination state=OriginOrDestination.NONE;
@@ -32,6 +32,13 @@ public class InfoDestination extends LinearLayout {
         }
     };
     private View.OnClickListener onClickOrigin= new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+    private OnClickListener onClickAddAlarm = new OnClickListener() {
         @Override
         public void onClick(View v) {
 
@@ -55,6 +62,7 @@ public class InfoDestination extends LinearLayout {
         rootLayout = (LinearLayout) findViewById(R.id.root_layout);
         buttonOrigin= (Button) findViewById(R.id.button_origin);
         buttonDestination=(Button) findViewById(R.id.button_destination);
+        buttonAddAlarm=(Button) findViewById(R.id.button_add_alarm);
         isShown =false;
 
         buttonOrigin.setOnClickListener(new OnClickListener() {
@@ -74,6 +82,13 @@ public class InfoDestination extends LinearLayout {
                 String part = getResources().getString(R.string.info_destination_title_part_destination);
                 setTop(getResources().getString(R.string.info_destination_title, part, station.getName()));
                 onClickDestination.onClick(v);
+            }
+        });
+
+        buttonAddAlarm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickAddAlarm.onClick(v);
             }
         });
     }
@@ -115,14 +130,20 @@ public class InfoDestination extends LinearLayout {
         onClickDestination=listener;
     }
 
+    public void setOnClickAddAlarmListener(OnClickListener listener){
+        onClickAddAlarm = listener;
+    }
+
     public void showButtons(){
         buttonOrigin.setVisibility(View.VISIBLE);
         buttonDestination.setVisibility(View.VISIBLE);
+        buttonAddAlarm.setVisibility(View.VISIBLE);
     }
 
     public void hideButtons(){
         buttonOrigin.setVisibility(View.GONE);
         buttonDestination.setVisibility(View.GONE);
+        buttonAddAlarm.setVisibility(View.GONE);
     }
 
     public void show(){

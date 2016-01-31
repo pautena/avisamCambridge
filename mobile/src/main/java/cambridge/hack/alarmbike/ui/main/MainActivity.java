@@ -46,6 +46,7 @@ import cambridge.hack.alarmbike.services.LocationService;
 import cambridge.hack.alarmbike.services.WearMessageService;
 import cambridge.hack.alarmbike.services.NavigationService;
 import cambridge.hack.alarmbike.services.RegisterGcm;
+import cambridge.hack.alarmbike.ui.alarms.AddAlarmActivity;
 import cambridge.hack.alarmbike.ui.alarms.AlarmActivity;
 import cambridge.hack.alarmbike.ui.main.customViews.infoDestination.InfoDestination;
 import cambridge.hack.alarmbike.utils.LocationUtils;
@@ -94,6 +95,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 infoDestination.setState(OriginOrDestination.DESTINATION);
+            }
+        });
+
+        infoDestination.setOnClickAddAlarmListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,AddAlarmActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -47,6 +47,16 @@
             android:background="@null"
             android:stateListAnimator="@null"
             android:textColor="@color/colorPrimary"
+            android:text="@string/action_add_alarm"
+            android:layout_marginRight="@dimen/md_right_padding"
+            android:id="@+id/button_add_alarm" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:stateListAnimator="@null"
+            android:textColor="@color/colorPrimary"
             android:text="@string/origin"
             android:id="@+id/button_origin"
             android:layout_marginRight="@dimen/md_right_padding"
@@ -60,6 +70,8 @@
             android:textColor="@color/colorPrimary"
             android:text="@string/destination"
             android:id="@+id/button_destination" />
+
+
     </LinearLayout>
 
 
