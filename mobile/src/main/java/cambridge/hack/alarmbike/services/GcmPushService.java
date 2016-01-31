@@ -10,7 +10,10 @@ import com.google.android.gms.gcm.GcmListenerService;
 
 import java.util.List;
 
+import cambridge.hack.alarmbike.callback.CreateAlarmCallback;
+import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
 import cambridge.hack.alarmbike.utils.MapsUtils;
 import io.realm.Realm;
 
@@ -39,10 +42,23 @@ public class GcmPushService extends GcmListenerService{
                     minStation= aux;
                 }
             }
-
+            Alarm alarm = NavigationService.getInstance(getApplicationContext()).getAlarm();
             NavigationService.getInstance(getApplicationContext()).alarmPushRecived(minStation);
 
-            //TODO: Enviar al server la nova peticio
+
+            ApiAdapter.getInstance(getApplicationContext()).createAlarm(minStation, alarm.getState(), new CreateAlarmCallback() {
+                @Override
+                public void onCreateAlarm(Alarm alarm) {
+
+                }
+
+                @Override
+                public void onError(Throwable t) {
+
+                }
+            });
+
+
             //TODO: Enviar al watch la nova estació
 
         }
