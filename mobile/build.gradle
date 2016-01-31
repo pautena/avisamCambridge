@@ -23,6 +23,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/groups/public/" }
+    }
 }
 
 dependencies {
@@ -43,4 +48,5 @@ dependencies {
     compile 'io.realm:realm-android:0.83.0'
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.google.android.gms:play-services-wearable:8.3.0'
+    compile 'com.getpebble:pebblekit:3.0.0@aar'
 }

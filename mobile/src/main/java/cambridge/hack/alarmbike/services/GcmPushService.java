@@ -8,8 +8,14 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.callback.CreateAlarmCallback;
 import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.Station;
@@ -44,6 +50,8 @@ public class GcmPushService extends GcmListenerService{
                 }
             }
             NavigationService.getInstance(getApplicationContext()).alarmPushRecived(minStation);
+
+            //Server
             ApiAdapter.getInstance(getApplicationContext()).createAlarm(minStation, alarm.getState(), new CreateAlarmCallback() {
                 @Override
                 public void onCreateAlarm(Alarm alarm) {
@@ -55,12 +63,43 @@ public class GcmPushService extends GcmListenerService{
 
                 }
             });
+
+            //Watch
             Intent intent = new Intent(getApplicationContext(), WearMessageService.class);
             intent.putExtra("message", Station.getJson(alarm.getStation()).toString());
             intent.putExtra("path", "/changeNavigation");
             startService(intent);
+
+            sendPebbleNotif(alarm,minStation);
+
         }
         realm.close();
+    }
+
+    private void sendPebbleNotif(Alarm alarm,Station station){
+        final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+        String part;
+        if(alarm.getState().equals(OriginOrDestination.DESTINATION)){
+            part = getResources().getString(R.string.slots);
+        }else{
+            part = getResources().getString(R.string.bikes);
+        }
+
+        String notifTitle = getResources().getString(R.string.notif_title_alarm_push,part);
+        String notifContent = getResources().getString(R.string.notif_title_alarm_content,station.getName());
+
+        final Map<String, String> pebbleData = new HashMap<>();
+        pebbleData.put("title", notifTitle);
+        pebbleData.put("body", notifContent);
+
+        final JSONObject jsonData = new JSONObject(pebbleData);
+        final String notificationData = new JSONArray().put(jsonData).toString();
+        i.putExtra("messageType", "PEBBLE_ALERT");
+        i.putExtra("sender", "Test");
+        i.putExtra("notificationData", notificationData);
+
+        Log.d("Test", "Sending to Pebble: " + notificationData);
+        sendBroadcast(i);
     }
 
 }
