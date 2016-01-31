@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.DateAlarm;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
 import cambridge.hack.alarmbike.utils.ListAdapter;
 import io.realm.Realm;
 
@@ -57,10 +58,23 @@ public class AlarmActivity extends AppCompatActivity {
         listView.setAdapter(new ListAdapter<DateAlarm>(this,R.layout.date_alarm_list_item,alarms) {
             @Override
             public void onEntrada(final DateAlarm entrada, View view) {
+                TextView tvStationName=(TextView) view.findViewById(R.id.tv_station_name);
                 TextView timeTv = (TextView) view.findViewById(R.id.textView);
+                TextView tvOriginOrDestination = (TextView) view.findViewById(R.id.tv_origin_destination);
                 CheckBox tomorrowCb= (CheckBox) view.findViewById(R.id.checkBox);
                 ImageView closeIv = (ImageView) view.findViewById(R.id.imageView);
 
+
+                tvStationName.setText(entrada.getStation().getName());
+
+                String orOrDest;
+
+                if(DateAlarm.getOriginOrDestination(entrada).equals(OriginOrDestination.DESTINATION))
+                    orOrDest = getResources().getString(R.string.destination);
+                else
+                    orOrDest = getResources().getString(R.string.origin);
+
+                tvOriginOrDestination.setText(orOrDest);
                 String timeString = DateAlarm.getFormatTime(entrada);
                 timeTv.setText(timeString);
                 tomorrowCb.setChecked(entrada.isTomorrowOnly());

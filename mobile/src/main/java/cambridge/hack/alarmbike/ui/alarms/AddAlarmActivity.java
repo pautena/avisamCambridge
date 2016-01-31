@@ -2,6 +2,7 @@ package cambridge.hack.alarmbike.ui.alarms;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,9 +24,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cambridge.hack.alarmbike.R;
+import cambridge.hack.alarmbike.entities.Alarm;
 import cambridge.hack.alarmbike.entities.DateAlarm;
 import cambridge.hack.alarmbike.entities.Station;
 import cambridge.hack.alarmbike.enums.OriginOrDestination;
+import cambridge.hack.alarmbike.services.AlarmService;
 import io.realm.Realm;
 
 public class AddAlarmActivity extends AppCompatActivity {
@@ -94,19 +97,23 @@ public class AddAlarmActivity extends AppCompatActivity {
         DateAlarm alarm = new DateAlarm(this,
                 initTime.getTime(),
                 finalTime.getTime(),
-                cbSelectOnlyTomorrow.isSelected(),
+                cbSelectOnlyTomorrow.isChecked(),
                 station,
                 originOrDestination);
 
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(alarm);
         realm.commitTransaction();
+        AlarmService.registerAlarm(this, alarm);
+
+        Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
         finish();
     }
 
     @OnClick(R.id.init_picker)
     public void selectInitTime(View view){
-        TimePickerDialog dialog = new TimePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
+        TimePickerDialog dialog = new TimePickerDialog(this, R.style.Theme_Dialog,
                 new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
