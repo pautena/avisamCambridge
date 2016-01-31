@@ -28,5 +28,9 @@
     <string name="info_destination_title_part_origin">Origin: </string>
     <string name="info_destination_title_part_destination">Destination: </string>
     <string name="error_create_alarm">Error on create alarm</string>
+    <string name="notif_title_alarm_push">You haven\'t runout of %1$s </string>
+    <string name="notif_title_alarm_content">New station: %1$s</string>
+    <string name="slots">slots</string>
+    <string name="bikes">bikes</string>
 
 </resources>

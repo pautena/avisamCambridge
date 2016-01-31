@@ -39,6 +39,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,LocationListener {
     private static final int NAVIGATION_NOTIFICATION_ID=1;
     private static final int NAVIGATION_FINISH_NOTIFICATION_ID=2;
+    private static final int NAVIGATION_ALARM_PUSH_NOTIFICATION_ID=3;
 
 
 
@@ -144,6 +145,9 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     }
 
     private void destroyNavigationNotification(){
+
+
+
         NotificationManager mNotifyMgr =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(NAVIGATION_NOTIFICATION_ID);
@@ -155,7 +159,25 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     }
 
     public void alarmPushRecived(Station newStation) {
-        //TODO: gestionar les notificacions per alarma push
+        String part;
+        if(alarm.getState().equals(OriginOrDestination.DESTINATION)){
+            part = context.getResources().getString(R.string.slots);
+        }else{
+            part = context.getResources().getString(R.string.bikes);
+        }
+
+        String notifTitle = context.getResources().getString(R.string.notif_title_alarm_push,part);
+        String notifContent = context.getResources().getString(R.string.notif_title_alarm_content,newStation.getName());
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_warning_white_24dp)
+                .setContentTitle(notifTitle)
+                .setContentText(notifContent);
+
+
+        NotificationManager mNotifyMgr =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.cancel(NAVIGATION_ALARM_PUSH_NOTIFICATION_ID);
     }
 
     @Override

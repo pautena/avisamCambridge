@@ -154,13 +154,6 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.fab)
     public void onClickStartNavigation(View view){
         Log.d("MainActivity", "onClickStartNavigation");
-        if(destinationStation!=null) {
-            navigationService.startNavigation(destinationStation);
-            //TODO: Enviar al server que s'ha començat la navegació
-            Intent intent = new Intent(this, WearMessageService.class);
-            intent.putExtra("message", Station.getJson(destinationStation).toString());
-            intent.putExtra("path", "/startNavigation");
-            startService(intent);
         if(destinationStation!=null && !infoDestination.getState().equals(OriginOrDestination.NONE)) {
             ApiAdapter.getInstance(this).createAlarm(destinationStation, infoDestination.getState(), new CreateAlarmCallback() {
                 @Override
@@ -178,11 +171,6 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(MainActivity.this,R.string.error_create_alarm,Toast.LENGTH_SHORT).show();
                 }
             });
-
-
-
-
-
         }else
             Toast.makeText(this,R.string.no_destination_selected,Toast.LENGTH_SHORT).show();
     }

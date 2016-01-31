@@ -27,10 +27,11 @@ public class GcmPushService extends GcmListenerService{
         Log.d("GcmPushService","messageReceived. from: "+from );
         Log.d("GcmPushService", "messageReceived. data: " + data);
         Realm realm = Realm.getInstance(getApplicationContext());
+        Alarm alarm = NavigationService.getInstance(getApplicationContext()).getAlarm();
 
 
-        if(false){
-            Station station = realm.where(Station.class).findFirst();
+        if(true){
+            Station station = alarm.getStation();
             List<Station> stations = realm.where(Station.class).findAll();
             double minDist = Double.MAX_VALUE;
             Station minStation=null;
@@ -42,10 +43,7 @@ public class GcmPushService extends GcmListenerService{
                     minStation= aux;
                 }
             }
-            Alarm alarm = NavigationService.getInstance(getApplicationContext()).getAlarm();
             NavigationService.getInstance(getApplicationContext()).alarmPushRecived(minStation);
-
-
             ApiAdapter.getInstance(getApplicationContext()).createAlarm(minStation, alarm.getState(), new CreateAlarmCallback() {
                 @Override
                 public void onCreateAlarm(Alarm alarm) {
@@ -57,13 +55,8 @@ public class GcmPushService extends GcmListenerService{
 
                 }
             });
-
-
             //TODO: Enviar al watch la nova estació
-
         }
-
-
         realm.close();
     }
 

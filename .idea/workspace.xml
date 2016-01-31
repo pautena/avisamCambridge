@@ -9,10 +9,26 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77127b34-cff1-4041-938b-43a6b659f149" name="Default" comment="asdf">
+    <list default="true" id="77127b34-cff1-4041-938b-43a6b659f149" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-hdpi/ic_alarm_add_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-mdpi/ic_alarm_add_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xhdpi/ic_alarm_add_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xxhdpi/ic_alarm_add_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xxxhdpi/ic_alarm_add_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-hdpi/ic_alarm_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-mdpi/ic_alarm_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xhdpi/ic_alarm_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xxhdpi/ic_alarm_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xxxhdpi/ic_alarm_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-hdpi/ic_warning_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-mdpi/ic_warning_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xhdpi/ic_warning_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xxhdpi/ic_warning_white_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/drawable-xxxhdpi/ic_warning_white_24dp.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/GcmPushService.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/GcmPushService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/mobile.iml" afterPath="$PROJECT_DIR$/mobile/mobile.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/wear.iml" afterPath="$PROJECT_DIR$/wear/wear.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/MainActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/NavigationService.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/NavigationService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="alarmbike.iws" />
@@ -65,16 +81,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.888889">
-              <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="RegisterGcm.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/RegisterGcm.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -89,19 +95,10 @@
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="163" column="29" selection-start-line="163" selection-start-column="29" selection-end-line="163" selection-end-column="29" />
+              <caret line="155" column="56" selection-start-line="155" selection-start-column="56" selection-end-line="155" selection-end-column="56" />
               <folding>
-                <element signature="e#3454#3640#0" expanded="false" />
-                <element signature="e#3639#3640#0" expanded="false" />
-                <element signature="e#3698#3889#0" expanded="false" />
-                <element signature="e#3888#3889#0" expanded="false" />
-                <element signature="e#4606#4607#0" expanded="false" />
-                <element signature="e#4650#4651#0" expanded="false" />
-                <element signature="e#4799#4830#0" expanded="false" />
-                <element signature="e#4832#4864#0" expanded="false" />
-                <element signature="e#6712#6744#0" expanded="false" />
-                <element signature="e#9705#9729#0" expanded="false" />
-                <marker date="1454205352000" expanded="true" signature="6865:7075" placeholder="{...}" />
+                <element signature="e#4606#4607#0" expanded="true" />
+                <element signature="e#4650#4651#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -110,9 +107,29 @@
       <file leaf-file-name="GcmPushService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/GcmPushService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33183858">
-              <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.46902654">
+              <caret line="45" column="96" selection-start-line="45" selection-start-column="96" selection-end-line="45" selection-end-column="96" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NavigationService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/NavigationService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="179" column="63" selection-start-line="179" selection-start-column="63" selection-end-line="179" selection-end-column="63" />
+              <folding>
+                <element signature="e#3430#3487#0" expanded="true" />
+                <element signature="e#3512#3573#0" expanded="true" />
+                <element signature="e#4165#4230#0" expanded="true" />
+                <element signature="e#4328#4392#0" expanded="true" />
+                <element signature="e#5977#6025#0" expanded="true" />
+                <element signature="e#6061#6109#0" expanded="true" />
+                <element signature="e#6150#6220#0" expanded="true" />
+                <element signature="e#6252#6341#0" expanded="true" />
+                <element signature="e#7700#7767#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2539,7 +2556,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/info_destination.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/customViews/infoDestination/InfoDestination.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/callback/RegisterUserCallback.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/utils/PermissionUtils.java" />
@@ -2548,9 +2564,10 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/RegisterGcm.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/ApiService.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/callback/CallbackCreateAlarm.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/MainActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/ApiAdapter.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/NavigationService.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/MainActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/GcmPushService.java" />
       </list>
     </option>
@@ -2687,6 +2704,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alarmbike" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alarmbike" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3154,7 +3197,13 @@
       <option name="project" value="LOCAL" />
       <updated>1454205111838</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="asdf">
+      <created>1454205402740</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1454205402740</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3192,7 +3241,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286119" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3324,14 +3373,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/RegisterGcm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="42" selection-start-line="60" selection-start-column="42" selection-end-line="60" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/callback/CreateAlarmCallback.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3026906">
@@ -3340,31 +3381,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/ApiService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="163" column="29" selection-start-line="163" selection-start-column="29" selection-end-line="163" selection-end-column="29" />
+          <caret line="26" column="52" selection-start-line="26" selection-start-column="52" selection-end-line="26" selection-end-column="52" />
           <folding>
-            <element signature="e#3454#3640#0" expanded="false" />
-            <element signature="e#3639#3640#0" expanded="false" />
-            <element signature="e#3698#3889#0" expanded="false" />
-            <element signature="e#3888#3889#0" expanded="false" />
-            <element signature="e#4606#4607#0" expanded="false" />
-            <element signature="e#4650#4651#0" expanded="false" />
-            <element signature="e#4799#4830#0" expanded="false" />
-            <element signature="e#4832#4864#0" expanded="false" />
-            <element signature="e#6712#6744#0" expanded="false" />
-            <element signature="e#9705#9729#0" expanded="false" />
-            <marker date="1454205352000" expanded="true" signature="6865:7075" placeholder="{...}" />
+            <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.888889">
-          <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3385,36 +3408,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/ApiService.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="52" selection-start-line="26" selection-start-column="52" selection-end-line="26" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.69124424">
+          <caret line="30" column="70" selection-start-line="30" selection-start-column="70" selection-end-line="30" selection-end-column="70" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/NavigationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55309737">
-          <caret line="158" column="59" selection-start-line="158" selection-start-column="59" selection-end-line="158" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="179" column="63" selection-start-line="179" selection-start-column="63" selection-end-line="179" selection-end-column="63" />
           <folding>
-            <element signature="e#3360#3417#0" expanded="true" />
-            <element signature="e#3442#3503#0" expanded="true" />
-            <element signature="e#4095#4160#0" expanded="true" />
-            <element signature="e#4258#4322#0" expanded="true" />
-            <element signature="e#5708#5709#0" expanded="true" />
-            <element signature="e#5736#5737#0" expanded="true" />
-            <element signature="e#6765#6832#0" expanded="true" />
+            <element signature="e#3430#3487#0" expanded="true" />
+            <element signature="e#3512#3573#0" expanded="true" />
+            <element signature="e#4165#4230#0" expanded="true" />
+            <element signature="e#4328#4392#0" expanded="true" />
+            <element signature="e#5977#6025#0" expanded="true" />
+            <element signature="e#6061#6109#0" expanded="true" />
+            <element signature="e#6150#6220#0" expanded="true" />
+            <element signature="e#6252#6341#0" expanded="true" />
+            <element signature="e#7700#7767#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/RegisterGcm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="60" column="42" selection-start-line="60" selection-start-column="42" selection-end-line="60" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/ui/main/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="56" selection-start-line="155" selection-start-column="56" selection-end-line="155" selection-end-column="56" />
+          <folding>
+            <element signature="e#4606#4607#0" expanded="true" />
+            <element signature="e#4650#4651#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/cambridge/hack/alarmbike/services/GcmPushService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33183858">
-          <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.46902654">
+          <caret line="45" column="96" selection-start-line="45" selection-start-column="96" selection-end-line="45" selection-end-column="96" />
           <folding />
         </state>
       </provider>
