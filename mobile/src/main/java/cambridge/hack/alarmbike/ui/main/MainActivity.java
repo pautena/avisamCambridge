@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
                     navigationService.startNavigation(alarm);
                     //Wear
                     Intent intent = new Intent(MainActivity.this, WearMessageService.class);
-                    intent.putExtra("message", "[\"StartRoute\"]");
+                    intent.putExtra("message", Station.getJson(alarm.getStation()).toString());
                     intent.putExtra("path", "/startNavigation");
                     startService(intent);
                 }

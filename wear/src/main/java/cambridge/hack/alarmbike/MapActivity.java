@@ -50,6 +50,11 @@ public class MapActivity extends WearableActivity implements OnMapReadyCallback,
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
+        Intent intent = getIntent();
+
+        if (intent.getBooleanExtra("end", false))
+            finish();
+
         running = true;
 
         setAmbientEnabled();

@@ -55,7 +55,10 @@ public class GcmPushService extends GcmListenerService{
 
                 }
             });
-            //TODO: Enviar al watch la nova estació
+            Intent intent = new Intent(getApplicationContext(), WearMessageService.class);
+            intent.putExtra("message", Station.getJson(alarm.getStation()).toString());
+            intent.putExtra("path", "/changeNavigation");
+            startService(intent);
         }
         realm.close();
     }
