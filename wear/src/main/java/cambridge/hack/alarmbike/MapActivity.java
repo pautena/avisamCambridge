@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -135,8 +136,7 @@ public class MapActivity extends WearableActivity implements OnMapReadyCallback,
             @Override
             public void onMyLocationChange(Location loc) {
                 mMap.moveCamera(CameraUpdateFactory
-                        .newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 1f));
-                mMap.setOnMyLocationChangeListener(null);
+                        .newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 16f));
             }
         });
 
