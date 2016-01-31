@@ -53,7 +53,7 @@ public class ApiAdapter {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
-                Log.d("ApiAdapter", "onResponse body: " + response.body());
+                Log.d("ApiAdapter", "onResponse body("+response.code()+"): " + response.body());
                 if(response.isSuccess()){
 
                 }else{
@@ -85,13 +85,13 @@ public class ApiAdapter {
     public void createAlarmDestination(final Station station, final OriginOrDestination state, final CreateAlarmCallback callback){
         String email = UserUtils.getUserEmail(context);
 
-        Call<JsonObject> call = service.createAlarmDestination(email,station.getUid());
-        call.enqueue(new Callback<JsonObject>() {
+        Call<Integer> call = service.createAlarmDestination(email,String.valueOf(station.getUid()));
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+            public void onResponse(Response<Integer> response, Retrofit retrofit) {
                 Log.d("ApiAdapter","onResponse("+response.code()+"): "+response.body());
                 if(response.isSuccess()) {
-                    callback.onCreateAlarm(new Alarm(station, state));
+                    callback.onCreateAlarm(new Alarm(response.body(),station, state));
                 }
             }
 
@@ -106,13 +106,13 @@ public class ApiAdapter {
     public void createAlarmOrigin(final Station station, final OriginOrDestination state, final CreateAlarmCallback callback){
         String email = UserUtils.getUserEmail(context);
 
-        Call<JsonObject> call = service.createAlarmOrigin(email,station.getUid());
-        call.enqueue(new Callback<JsonObject>() {
+        Call<Integer> call = service.createAlarmOrigin(email,String.valueOf(station.getUid()));
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Response<JsonObject> response, Retrofit retrofit) {
+            public void onResponse(Response<Integer> response, Retrofit retrofit) {
                 Log.d("ApiAdapter", "onResponse(" + response.code() + "): " + response.body());
                 if(response.isSuccess()) {
-                    callback.onCreateAlarm(new Alarm(station, state));
+                    callback.onCreateAlarm(new Alarm(response.body(),station, state));
                 }
             }
 
@@ -131,7 +131,7 @@ public class ApiAdapter {
     }
 
     public void finishAlarmDestination(Alarm alarm){
-        Call<JsonObject> call = service.finishAlarmDestination(alarm.getId());
+        Call<JsonObject> call = service.finishAlarmDestination(String.valueOf(alarm.getId()));
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -152,7 +152,7 @@ public class ApiAdapter {
     }
 
     public void finishAlarmOrigin(Alarm alarm){
-        Call<JsonObject> call = service.finishAlarmOrigin(alarm.getId());
+        Call<JsonObject> call = service.finishAlarmOrigin(String.valueOf(alarm.getId()));
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

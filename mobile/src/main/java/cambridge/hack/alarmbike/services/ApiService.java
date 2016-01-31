@@ -20,17 +20,15 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("/alarm/")
-    Call<JsonObject> createAlarmDestination(@Field("app_user")String email, @Field("station") int stationId);
+    Call<Integer> createAlarmDestination(@Field("email")String email, @Field("station_id") String stationId);
 
     @FormUrlEncoded
     @POST("/alarmOrigin/")
-    Call<JsonObject> createAlarmOrigin(@Field("app_user")String email, @Field("station") int stationId);
+    Call<Integer> createAlarmOrigin(@Field("email")String email, @Field("station_id") String stationId);
 
-    @FormUrlEncoded
     @DELETE("/alarm/{id}/")
-    Call<JsonObject> finishAlarmDestination(@Path("id") int id);
+    Call<JsonObject> finishAlarmDestination(@Path("id") String id);
 
-    @FormUrlEncoded
     @DELETE("/alarmOrigin/{id}/")
-    Call<JsonObject> finishAlarmOrigin(@Path("id") int id);
+    Call<JsonObject> finishAlarmOrigin(@Path("id") String id);
 }

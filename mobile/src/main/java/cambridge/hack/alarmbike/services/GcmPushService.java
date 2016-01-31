@@ -33,18 +33,19 @@ public class GcmPushService extends GcmListenerService{
         Log.d("GcmPushService","messageReceived. from: "+from );
         Log.d("GcmPushService", "messageReceived. data: " + data);
         Realm realm = Realm.getInstance(getApplicationContext());
+        int stationUid = NavigationService.getInstance(getApplicationContext()).getStationUid();
         Alarm alarm = NavigationService.getInstance(getApplicationContext()).getAlarm();
 
 
-        if(true){
-            Station station = alarm.getStation();
+        if(data.getString("path").equals("/destination")){
+            Station station = realm.where(Station.class).equalTo("uid",stationUid).findFirst();
             List<Station> stations = realm.where(Station.class).findAll();
             double minDist = Double.MAX_VALUE;
             Station minStation=null;
 
             for(Station aux : stations){
                 double newDist = MapsUtils.distBetween(Station.getLatLng(station),Station.getLatLng(aux));
-                if(minDist> newDist){
+                if(aux.getUid()!=station.getUid() && minDist> newDist){
                     minDist=newDist;
                     minStation= aux;
                 }
