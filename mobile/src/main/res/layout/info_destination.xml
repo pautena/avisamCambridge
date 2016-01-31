@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/info_destination_height"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/root_layout"
     android:gravity="center_vertical"
@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Text de prova superior"
+        android:layout_marginTop="@dimen/md_margin_top"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/id_top_text_color"
         android:textSize="@dimen/id_top_text_size"
@@ -33,6 +34,33 @@
         android:textColor="@color/id_bottom_text_color"
         android:textSize="@dimen/id_bottom_text_size"
         android:textStyle="normal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:stateListAnimator="@null"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/origin"
+            android:id="@+id/button_origin"
+            android:layout_marginRight="@dimen/md_right_padding"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:stateListAnimator="@null"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/destination"
+            android:id="@+id/button_destination" />
+    </LinearLayout>
 
 
 </LinearLayout>

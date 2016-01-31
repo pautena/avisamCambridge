@@ -87,4 +87,11 @@ public class RegisterGcm extends AsyncTask<Void,Void,String> implements Register
         Log.e("RegisterGcm", "onError: " + throwable.getMessage());
         Toast.makeText(context,R.string.error_register_user,Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onError(int code, String message) {
+        Log.e("RegisterGcm", "onError. code: "+code+", message: "+message);
+        Toast.makeText(context,R.string.error_register_user,Toast.LENGTH_SHORT).show();
+
+    }
 }

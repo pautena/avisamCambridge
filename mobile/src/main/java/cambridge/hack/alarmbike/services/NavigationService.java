@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
+import cambridge.hack.alarmbike.ui.main.customViews.infoDestination.InfoDestination;
 import cambridge.hack.alarmbike.utils.LocationUtils;
 import cambridge.hack.alarmbike.utils.MapsUtils;
 
@@ -36,6 +38,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,LocationListener {
     private static final int NAVIGATION_NOTIFICATION_ID=1;
     private static final int NAVIGATION_FINISH_NOTIFICATION_ID=2;
+
     public static class StopNavigationIntent extends IntentService{
 
         public StopNavigationIntent() {
@@ -45,7 +48,10 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         @Override
         protected void onHandleIntent(Intent intent) {
             Log.d("NavitaionService","StopNavigationIntent.onHandleIntent");
-            //TODO: enviar al server que s'ha finalitzat la navegació
+            //Server
+            ApiAdapter.getInstance().finishAlarm();
+
+            //Wear
             Intent i = new Intent(this, WearMessageService.class);
             i.putExtra("message", "[\"stopNavigation\"]");
             i.putExtra("path", "/stopNavigation");
@@ -69,6 +75,7 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
     private GoogleApiClient mGoogleApiClient;
     private int measureTime,measureMinDist;
     private Station destinationStation;
+    private OriginOrDestination state;
 
 
     private NavigationService(Context context){
@@ -90,10 +97,11 @@ public class NavigationService implements GoogleApiClient.ConnectionCallbacks,
         measureMinDist=context.getResources().getInteger(R.integer.measure_min_dist);
     }
 
-    public void startNavigation(Station destinationStation){
+    public void startNavigation(Station destinationStation, OriginOrDestination state){
         if(!navigationIsRun && LocationUtils.checkLocationPermission(context)){
             navigationIsRun=true;
             this.destinationStation = destinationStation;
+            this.state = state;
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     measureTime,

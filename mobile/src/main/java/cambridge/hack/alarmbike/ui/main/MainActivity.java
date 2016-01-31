@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,12 +36,15 @@ import butterknife.OnClick;
 import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.callback.GetStationsCallback;
 import cambridge.hack.alarmbike.entities.Station;
+import cambridge.hack.alarmbike.enums.OriginOrDestination;
 import cambridge.hack.alarmbike.services.AlarmbikeInstanceIDListenerService;
+import cambridge.hack.alarmbike.services.ApiAdapter;
 import cambridge.hack.alarmbike.services.CityBikAdapter;
 import cambridge.hack.alarmbike.services.LocationService;
 import cambridge.hack.alarmbike.services.WearMessageService;
 import cambridge.hack.alarmbike.services.NavigationService;
 import cambridge.hack.alarmbike.services.RegisterGcm;
+import cambridge.hack.alarmbike.ui.alarms.AlarmActivity;
 import cambridge.hack.alarmbike.ui.main.customViews.infoDestination.InfoDestination;
 import cambridge.hack.alarmbike.utils.LocationUtils;
 import io.realm.Realm;
@@ -82,6 +86,20 @@ public class MainActivity extends AppCompatActivity
         setupToolbar();
         setupNavigationView();
         setupMap();
+
+        infoDestination.setOnClickOriginListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoDestination.setState(OriginOrDestination.ORIGIN);
+            }
+        });
+
+        infoDestination.setOnClickDestinationListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoDestination.setState(OriginOrDestination.DESTINATION);
+            }
+        });
     }
 
     @Override
@@ -134,9 +152,16 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.fab)
     public void onClickStartNavigation(View view){
         Log.d("MainActivity", "onClickStartNavigation");
-        if(destinationStation!=null) {
-            navigationService.startNavigation(destinationStation);
-            //TODO: Enviar al server que s'ha començat la navegació
+        if(destinationStation!=null && !infoDestination.getState().equals(OriginOrDestination.NONE)) {
+            navigationService.startNavigation(destinationStation,infoDestination.getState());
+            //Server
+            if(infoDestination.getState().equals(OriginOrDestination.DESTINATION)){
+                ApiAdapter.getInstance().createAlarmDestination(destinationStation);
+            }else{
+                ApiAdapter.getInstance().createAlarmOrigin(destinationStation);
+            }
+
+            //Wear
             Intent intent = new Intent(this, WearMessageService.class);
             intent.putExtra("message", "[\"StartRoute\"]");
             intent.putExtra("path", "/startNavigation");
@@ -164,7 +189,11 @@ public class MainActivity extends AppCompatActivity
         if (LocationUtils.checkLocationPermission(this)) {
             map.setMyLocationEnabled(true);
         }
-        map.getUiSettings().setAllGesturesEnabled(true);
+        UiSettings settings = map.getUiSettings();
+        settings.setAllGesturesEnabled(true);
+        settings.setMapToolbarEnabled(false);
+
+
         map.animateCamera(locationService.getStartCamera());
 
         showStations();
@@ -173,12 +202,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapClick(LatLng latLng) {
-        //TODO: Acció de quan es fa clic al mapa
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        //TODO: Acció de quan es fa long clic al mapa
     }
 
     @Override
@@ -241,18 +268,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-            // TODO REMOVE MEEE!
+        if (id == R.id.nav_alarms) {
+            Intent intent = new Intent(this, AlarmActivity.class);
+            startActivity(intent);
+        }  else if (id == R.id.nav_send) {
             sendMessage();
         }
 
