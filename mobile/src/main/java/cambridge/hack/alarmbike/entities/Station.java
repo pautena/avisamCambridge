@@ -8,7 +8,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.JsonObject;
 
-import cambridge.hack.alarmbike.R;
 import cambridge.hack.alarmbike.utils.Date;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -18,11 +17,11 @@ public class Station extends RealmObject{
 
     public static void setMarkerByBikes(Station station,MarkerOptions markerOptions) {
         if(station.getBikes()>5){
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_green));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         }else if(station.getBikes()!=0){
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_orange));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
         }else{
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         }
     }
 
